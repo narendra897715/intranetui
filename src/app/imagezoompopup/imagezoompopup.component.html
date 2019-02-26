@@ -1,0 +1,23 @@
+<!-- <angular-image-slider  [images]="imagearraydata"></angular-image-slider> -->
+
+
+
+<div fxFlex fxLayout="column">
+    <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center" style="background-color:#edf0f3; height:55px;">
+        <h1 class="color">Image Viewer</h1>
+        <mat-icon (click)="onNoClick()" class="color" style="cursor: pointer">&#xE5CD;</mat-icon>
+      </mat-toolbar>
+      
+      <div style="height:500px;" >
+            <ngx-image-viewer [src]="imagearraydata.allimagedata" 
+                     
+            [(index)]="imageIndexOne"    
+            >
+            </ngx-image-viewer>
+      </div>
+          
+    
+  
+   
+
+</div>

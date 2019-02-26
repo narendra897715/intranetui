@@ -1,0 +1,390 @@
+<div fxFlex fxLayout="column" style="background-color: white;border-radius:5px;border-top-left-radius:0px;background-image:url(assets/Intranet-Icons/bg22.png);">
+  <div fxLayout="row" fxFlex>
+    <div fxLayout="column" fxFlex>
+      <div fxLayout="column" fxFlex >
+
+
+        <div fxlayout="row" fxFlex="10">
+          <!-- <img [src]="'assets/Intranet-Icons/backarrow.svg'" style="width:15px; height:15px; cursor: pointer" (click)="gotoforum()"> &nbsp;&nbsp;
+          <span style="color:#363084; cursor: pointer" (click)="gotoforum()">Interaction forums</span> -->
+          <div  fxlayout="row" style="border-bottom:1px solid lavender">
+            <span fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center" style="display:flex; cursor:pointer; padding:1%" (click)="gotoforum()">
+              <span class="mer-priority-high-filled" style="font-size:25px; transform: rotate(270deg); color: #5587ae"></span>
+              <span style="font-size: 16px; color: #5587ae;">Back</span>
+            </span>
+
+          </div>
+        </div>
+<div fxFlex fxLayout="column" style="padding:1%">
+        
+        <div  fxFlex="5" fxLayout="row" fxLayoutAlign="space-between">
+          <span class="eventname-class">{{completeObjectData.eventName}}</span> &nbsp;&nbsp;&nbsp;
+          <!-- <span (click)="editevent(completeObjectData)" *ngIf="hideAllEditButtons" style="color: #95af28">
+            <i class="fa fa-pencil" aria-hidden="true" class="font: normal normal normal 14px/1 FontAwesome;">Edit</i>
+          </span> -->
+          <span fxLayoutAlign="center center" (click)="editevent(completeObjectData)" *ngIf="hideAllEditButtons" style="color: #95af28;cursor:pointer; border: 1px solid #95af28; padding: 2px;
+          height: 25px;
+          padding: 5px;
+          border-radius: 5px;"> 
+            <i class="fa fa-pencil" aria-hidden="true" style="margin-right:5px;font: normal normal normal 14px/1 FontAwesome;"></i>
+            <span>Edit</span>
+          </span>
+        </div>
+
+        <div fxFlex="10" fxLayout="column" >
+          <div fxLayout="row" fxFlex fxLayoutAlign="space-between center">
+            <div fxLayout="row" fxFlex fxLayout.xs="column" fxLayoutAlign="start center">
+              <span fxLayoutAlign="center center" fxLayoutAlign.xs="start start">Posted On &nbsp; &nbsp;
+                <img [src]="'assets/Intranet-Icons/time.svg'" style="height:15px;"> &nbsp; &nbsp;<span>{{completeObjectData.createdDate | date:"MMM dd, yyyy"}}</span></span>&nbsp; &nbsp;
+              <span class="spaceAfterCreatedBy" fxLayoutAlign="center center" fxLayoutAlign.xs="start center">by &nbsp; &nbsp;
+
+                <span style="color: #363084; cursor: pointer; font-weight: bold" [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover">{{completeObjectData.createdByName}}
+                </span>
+                <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false">
+                  <mat-card style="max-width: 180px; padding: 10px !important">
+                    <mat-card-content>
+                      <img [src]="'assets/Intranet-Icons/user.svg'" (click)="gotoEmployeePage(completeObjectData.createdBy)" style="width:15px; height:15px; margin-right:8px;cursor:pointer">
+                      <a href="{{completeObjectData.mail}}">
+                        <img [src]="'assets/Intranet-Icons/outlook.svg'" style="width:15px; height:15px; margin-right:8px">
+                      </a>
+                      <a [href]="sanitize(completeObjectData.skype)">
+                        <img [src]="'assets/Intranet-Icons/skype.svg'" style="width:15px; height:15px;">
+                      </a>
+                    </mat-card-content>
+                  </mat-card>
+                </mde-popover>
+
+              </span>
+              <!-- <span fxLayoutAlign="center center" fxLayoutAlign.xs="start start" *ngIf="completeObjectData.categoryId ==7">Poll Ends On &nbsp; &nbsp;
+                <img [src]="'assets/Intranet-Icons/time.svg'" style="height:15px;"> &nbsp; &nbsp; {{completeObjectData.eventEndDate | date:"MMM dd, yyyy"}}</span> -->
+            </div>
+
+
+            <div fxLayout="row" *ngIf="completeObjectData.categoryId !=7">
+              <div *ngFor="let cld of completeObjectData.CLDData" fxLayout="row">
+                <span fxLayoutAlign="center center">
+                  <img [src]="'assets/Intranet-Icons/comment.svg'"  style="margin:0 5px 0 5px;height:20px;cursor:pointer">{{cld.commentsCount}}</span>
+                <span fxLayoutAlign="center center">
+                  <img [src]="'assets/Intranet-Icons/like.svg'" *ngIf="cld.liked == null || cld.liked == false" (click)="likedTheEvent(completeObjectData.interactionForumsId,cld,true)"
+                     style="margin:0 5px 0 5px; cursor: pointer;height:20px">
+                  <img [src]="'assets/Intranet-Icons/like-filled.svg'" *ngIf="cld.liked == true" height="20" style="margin:0 5px 0 5px; cursor: pointer">{{cld.likesCount}}</span>
+                <!-- <span fxLayoutAlign="center center">
+                  <img [src]="'assets/Intranet-Icons/dislike.svg'" *ngIf="cld.liked == null || cld.liked == true" (click)="likedTheEvent(completeObjectData.interactionForumsId,cld,false)"
+                    style="margin:0 5px 0 5px; cursor: pointer;height:20px">
+                  <img [src]="'assets/Intranet-Icons/dislike-filled.svg'" *ngIf="cld.liked == false" height="20" style="margin:0 5px 0 5px; cursor: pointer">{{cld.dislikesCount}}
+                </span> -->
+              </div>
+            </div>
+            <div fxLayout="row" *ngIf="completeObjectData.categoryId ==7 && completeObjectData.totalPollingCount > 0.001">
+              <span fxLayoutAlign="center center" fxLayoutAlign.xs="start start" fxLayout="row">
+
+                <round-progress [current]="completeObjectData.totalPollingCount" [max]="100" [radius]="20" [color]="'#00b6f8'" [background]="'#375a64'"
+                  [stroke]="8"></round-progress> &nbsp; &nbsp;
+
+
+                <span style="font-size: 16px">{{completeObjectData.totalPollingCount}} % Votes</span>
+
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+        <div fxFlex="5" style="margin-bottom:1%">
+          <div fxLayoutGap="10px" fxLayout="row">
+              <span  fxLayoutAlign="start center">
+                <span *ngIf="completeObjectData.categoryId != 7">Start Date:</span><span *ngIf="completeObjectData.categoryId == 7">Poll Starts On</span>   &nbsp;&nbsp;
+                
+                  <b >{{completeObjectData.eventStartDate | date:"MMM dd, yyyy h:mm a" }}</b>
+                </span> 
+                <span *ngIf="completeObjectData.eventEndDate != null"  fxLayoutAlign="start center">
+                  <span *ngIf="completeObjectData.categoryId != 7">End Date:</span><span *ngIf="completeObjectData.categoryId == 7">Poll Ends On</span>  &nbsp;&nbsp; 
+                 
+                  <b>{{completeObjectData.eventEndDate | date:"MMM dd, yyyy h:mm a" }}</b>
+                </span>
+           
+          </div>
+        </div>
+        <div style="overflow:auto;margin:1px" *ngIf="completeObjectData.categoryId != 7" fxLayout="column" fxFlex>
+          <perfect-scrollbar>
+           
+            <div style="margin:8px; overflow:auto;" [innerHTML]="completeObjectData.eventDescription | safeHtml">
+              <!-- <perfect-scrollbar> -->
+              
+              <!-- </perfect-scrollbar> -->
+            </div>
+            <div fxLayout="row wrap">
+              <div *ngIf="completeObjectData.imageData.length == 0">
+                <img style="height:70px" [src]="'assets/Intranet-Icons/picture.svg'">
+              </div>
+              <div *ngIf="completeObjectData.imageData.length != 0" fxLayout="row">
+                <div *ngFor="let i of completeObjectData.imageData; index as l" style="margin:10px">
+                  <div fxLayout="column" fxLayoutAlign="end end" class="image-click-view">
+
+                    <b *ngIf="hideAllEditButtons">
+                      <img [src]="'assets/Intranet-Icons/add_circle.svg'" style=" color: #363084;transform: rotate(45deg); cursor: pointer" (click)="deleteimage(i.imageId)">
+
+                    </b>
+                    <b>
+
+                    </b>
+                    <!-- <i class="fa fa-times-circle-o" aria-hidden="true" ></i> -->
+
+                    <img style="height:75px;width:145px; cursor: pointer" [src]="i.image" (click)="zoominimage(l)">
+                    <span style="cursor: pointer" (click)="zoominimage(l)">Click to view full screen</span>
+                  </div>
+
+                </div>
+              </div>
+
+              <div fxLayoutAlign="center center" *ngIf="hideAllEditButtons && completeObjectData.imageData.length < 5">
+                <input id="upload" type="file" style="display:none" (change)="onFileChange($event,completeObjectData.interactionForumsId)"
+                  multiple name="imageupload">
+                <img [src]="'assets/Intranet-Icons/add_circle.svg'" style="width:30px; height:30px; color: #363084; padding: 10px; cursor: pointer" (click)="openInput()">
+              </div>
+            </div>
+            <div style="margin:1%">
+              <div>
+                <div>
+                  <div fxLayout="row" fxLayoutAlign="start center">
+                    <img fxFlex="5" [src]="'assets/Intranet-Icons/male-user.svg'" class="profile-img">
+                    <div>{{businesslogic.employeeName}}</div>
+                  </div>
+                  <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="5px">
+                    <div fxFlex="5"></div>
+                    <textarea fxFlex="85" maxlength="500" placeholder="Write comment here..." name="comment" (input)="checkForCommentDisabled(newComment.content)"
+                      style="height:50px;border-radius: 3px;border: 1px solid grey;padding:5px" [(ngModel)]="newComment.content"></textarea>
+                    <button fxFlex="10" mat-raised-button type="submit" class="add-comment" [disabled]="disableCommentButton" (click)="addNewComment(newComment.content,completeObjectData.interactionForumsId)">
+                      <img [src]="'assets/Intranet-Icons/submit_new.svg'" style="margin-right:4px; height:15px">
+                      <span style="color: white">Comment</span>
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+
+
+              <div class="listing-comments">
+                <div *ngFor="let comment of completeObjectData.commentsData">
+                  <div fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" style="box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);height: 80px;
+              border-radius: 10px;margin-bottom:10px">
+                    <img fxFlex="5" [src]="'assets/Intranet-Icons/male-user.svg'" class="profile-img">
+                    <div fxFlex="95" fxLayout="column">
+                      <span fxLayout="row" fxLayoutAlign="start center">
+                        <span class="name-text">{{comment.commentedByName}}</span> &nbsp;&nbsp;&nbsp;&nbsp;
+                        <img [src]="'assets/Intranet-Icons/clock.svg'" style="height:15px;"> &nbsp;&nbsp;{{comment.createdDate | date:"MMM dd,yyyy h:mm:ss a"}} </span>
+                      <span class="comment-content">{{comment.commentContent}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </perfect-scrollbar>
+        </div>
+        <div style="overflow:auto;margin:1px" *ngIf="completeObjectData.categoryId == 7" fxFlex>
+          <perfect-scrollbar>
+            <div fxLayoutGap="10px" fxLayout="column" *ngIf="optionsView">
+              <div style="color:#363084;margin-bottom:1%;" fxLayoutAlign="start center" fxLayoutGap="10px" *ngIf="hideAllEditButtons" fxLayout="row">
+                <div fxLayoutAlign="center center">
+                    <img (click)="showDetails(completeObjectData.interactionForumsId)" [src]="'assets/Intranet-Icons/pie-chart.svg'" style="height:15px;cursor:pointer">
+                    <span (click)="showDetails(completeObjectData.interactionForumsId)" style="cursor:pointer;color:#363084;text-decoration: underline">View Polls/Votes</span>
+                    
+                </div>
+                <div fxLayoutAlign="center center">
+                    <img (click)="showSuggestedOption(completeObjectData.interactionForumsId)" [src]="'assets/Intranet-Icons/pie-chart.svg'" style="height:15px;cursor:pointer">
+                    <span (click)="showSuggestedOption(completeObjectData.interactionForumsId)" style="cursor:pointer;color:#363084;text-decoration: underline">View Suggestion</span>
+                </div>
+              </div>
+              
+              <div style="margin:8px; overflow:auto;white-space: pre-wrap;" [innerHtml]="completeObjectData.eventDescription | safeHtml">
+                <!-- <perfect-scrollbar> -->
+               
+                <!-- </perfect-scrollbar> -->
+              </div>
+              <div style="cursor:pointer;" fxLayout="row wrap">
+                <div *ngIf="completeObjectData.imageData.length == 0">
+                  <img [src]="'assets/Intranet-Icons/polling.svg'" style="height:90px">
+                </div>
+                <div *ngIf="completeObjectData.imageData.length != 0" fxLayout="row">
+                  <div *ngFor="let i of completeObjectData.imageData; index as l" style="margin:10px">
+                    <div fxLayout="column" fxLayoutAlign="end end" class="image-click-view">
+
+                      <b *ngIf="hideAllEditButtons">
+                        <img [src]="'assets/Intranet-Icons/add_circle.svg'" style=" color: #363084;transform: rotate(45deg); cursor: pointer"  (click)="deleteimage(i.imageId)">
+                      </b>
+                      <!-- <i class="fa fa-times-circle-o" aria-hidden="true" ></i> -->
+
+                      <img style="height:75px;width:145px" [src]="i.image" (click)="zoominimage(l)">
+                      <span (click)="zoominimage(l)">Click to view full screen</span>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div fxLayoutAlign="center center" *ngIf="hideAllEditButtons && completeObjectData.imageData.length < 5">
+                  <input id="upload" type="file" style="display:none" (change)="onFileChange($event,completeObjectData.interactionForumsId)"
+                    multiple name="imageupload">
+                  <img [src]="'assets/Intranet-Icons/add_circle.svg'" style="width:30px; height:30px; color: #363084; padding: 10px;" (click)="openInput()">
+                </div>
+
+              </div>
+              <div>
+                <mat-radio-group class="example-radio-group" [disabled]="todayDate > completeObjectData.eventEndDate || todayDate < completeObjectData.eventStartDate">
+                  
+                    <div *ngFor="let i of completeObjectData.pollingOptions" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+                  <mat-radio-button class="poll-design" (change)="pollOptionSelected($event,i)" [checked]="i.OptionOpted === true"
+                     [value]="i">
+                 
+                    <span [matTooltip]="(todayDate > completeObjectData.eventEndDate || todayDate < completeObjectData.eventStartDate) ? 'Either polling has not started or the end date is exceeded' : ''" matTooltipPosition="above" >{{i.optionDescription}}</span>
+                  </mat-radio-button>
+                  <span>{{i.optionPercentage}}%</span>
+                </div>
+             
+                </mat-radio-group>
+              </div>
+              <div style="margin:1%">
+                <div>
+                  <div>
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                      <img fxFlex="5" [src]="'assets/Intranet-Icons/male-user.svg'" class="profile-img">
+                      <div>{{businesslogic.employeeName}}</div>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="5px">
+                      <div fxFlex="5"></div>
+                      <textarea fxFlex="85" maxlength="500" placeholder="Write comment here..." name="comment" (input)="checkForCommentDisabled(newComment.content)"
+                        style="height:50px;border-radius: 3px;border: 1px solid grey;padding:5px" [(ngModel)]="newComment.content"></textarea>
+                      <button fxFlex="10" mat-raised-button type="submit" class="add-comment" [disabled]="disableCommentButton" (click)="addNewComment(newComment.content,completeObjectData.interactionForumsId)">
+                        <img [src]="'assets/Intranet-Icons/submit_new.svg'" style="margin-right:4px; height:15px">
+                        <span style="color: white">Comment</span>
+                      </button>
+                    </div>
+  
+                  </div>
+                </div>
+  
+  
+                <div class="listing-comments">
+                  <div *ngFor="let comment of completeObjectData.commentsData">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" style="box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);height: 80px;
+                border-radius: 10px;margin-bottom:10px">
+                      <img fxFlex="5" [src]="'assets/Intranet-Icons/male-user.svg'" class="profile-img">
+                      <div fxFlex="95" fxLayout="column">
+                        <span fxLayout="row" fxLayoutAlign="start center">
+                          <span class="name-text">{{comment.commentedByName}}</span> &nbsp;&nbsp;&nbsp;&nbsp;
+                          <img [src]="'assets/Intranet-Icons/clock.svg'" style="height:15px;"> &nbsp;&nbsp;{{comment.createdDate | date:"MMM dd,yyyy h:mm:ss a"}} </span>
+                        <span class="comment-content">{{comment.commentContent}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+              </div>
+            </div>
+
+
+            <div fxLayout="column" *ngIf="polledemployeesdata">
+              <div class="mat-elevation-z8">
+
+                <div fxlayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" class="example-header" style="min-height: 56px !important">
+                  <mat-form-field fxFlex="20" style="padding: 0 6px">
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+                  </mat-form-field>
+                  <div fxflex="10"></div>
+                  <mat-form-field fxFlex="20" style="padding: 0 6px">
+                    <mat-select placeholder="Voting option" [(value)]="optionSelected" (selectionChange)="votingSelectionChanged(completeObjectData.interactionForumsId,optionSelected)">
+                      <mat-option *ngFor="let i of completeObjectData.pollingOptions" [value]="i.optionId">
+                        {{i.optionDescription}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <!-- <img matTooltip="Download Excel" matTooltipPosition="right" [src]="'assets/images/EXCEL.svg'" style="height:40px;cursor:pointer"
+                    (click)="Downloadexcel(completeObjectData.interactionForumsId)"> -->
+                </div>
+                <table mat-table [dataSource]="dataSource" matSort>
+
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Employee Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.employeeName}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="designation">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Designation </th>
+                    <td mat-cell *matCellDef="let element"> {{element.employeeDesignation}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="time">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Voted time </th>
+                    <td mat-cell *matCellDef="let element"> {{element.createdDate | date : "MMM dd, yyyy h:mm:ss a"}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="location">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Work Location </th>
+                    <td mat-cell *matCellDef="let element"> {{element.workLocation}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="pollresponse">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Response </th>
+                    <td mat-cell *matCellDef="let element"> {{element.optionDescription}} </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns" style="background-color: #d9d9d9"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+              </div>
+
+            </div>
+
+            <div fxLayout="column" *ngIf="suggestedOptionTable">
+                <div class="mat-elevation-z8">
+  
+                  <div fxlayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" class="example-header" style="min-height: 56px !important">
+                    <mat-form-field fxFlex="20" style="padding: 0 6px">
+                      <input matInput (keyup)="searchsuggestedoption($event.target.value)" placeholder="Search">
+                    </mat-form-field>
+                    <div fxflex="10"></div>
+                   
+                    <!-- <img matTooltip="Download Excel" matTooltipPosition="right" [src]="'assets/images/EXCEL.svg'" style="height:40px;cursor:pointer"
+                      (click)="Downloadexcel(completeObjectData.interactionForumsId)"> -->
+                  </div>
+                  <table mat-table [dataSource]="suggestedoptiondataSource" matSort>
+  
+                    <ng-container matColumnDef="employeename">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Suggested By </th>
+                      <td mat-cell *matCellDef="let element"> {{element.suggestedByName }} </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="suggestedoption">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Suggested Option </th>
+                      <td mat-cell *matCellDef="let element"> {{element.suggestedOption }} </td>
+                    </ng-container>
+  
+                    <ng-container matColumnDef="suggestedtime">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Suggested time </th>
+                      <td mat-cell *matCellDef="let element"> {{element.suggestedDate  | date : "MMM dd, yyyy h:mm:ss a"}} </td>
+                    </ng-container>
+  
+                  
+  
+                    <tr mat-header-row *matHeaderRowDef="displaySuggestedOptionColumns" style="background-color: #d9d9d9"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displaySuggestedOptionColumns;"></tr>
+                  </table>
+  
+                  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                </div>
+  
+              </div>
+
+          </perfect-scrollbar>
+
+        </div>
+</div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,494 @@
+<div fxLayout="column" fxFlex class="scrollcontent">
+  <div fxLayout="row" fxFlex>
+    <div fxLayout="column" fxFlex>
+      <div fxLayout="row" fxLayout.md="column" fxLayout.sm="column" fxLayout.xs="column" fxFlex style="margin:1% 1% 1% 1%">
+
+        <div fxFlex="75" fxLayout="column" class="employeesSection" style="background-image:url(assets/Intranet-Icons/bg22.png);"
+          *ngIf="!makeTotalDisplayScreenVisible">
+
+          <div fxLayoutAlign="space-between center" fxLayout="row" fxLayout.xs="column" style="border-bottom:1px solid lavender;" class="appreciation">
+            <!-- <div>
+                <input class="search" aria-label="search" placeholder="Search Emp ID, Name" type="searchbox">
+              </div> -->
+            <div class="searchbox" fxLayoutAlign="center center">
+              <input aria-label="search" placeholder="Search" (keyup)="searchFilters(employeeObjectData.search);" (keyup.enter)="searchFilters(employeeObjectData.search);"
+                [(ngModel)]="employeeObjectData.search" type="search" style="border:none;background-color: #ebebeb;">
+              <img [src]="'assets/Intranet-Icons/search.svg'" width="18" height="18" (click)="searchFilters(employeeObjectData.search)">
+            </div>
+            <div fxLayout="row" fxLayoutGap="10px">
+              <span *ngIf="clearSearch" style="margin-right:0px !important" (click)="resetFilters()">
+                <img style="height:25px; padding: 3px;" *ngIf="clearSearch" [matTooltip]="'Reset filter'" matTooltipPosition="above" (click)="resetFilters()"
+                  [src]="'assets/Intranet-Icons/reset.svg'">
+              </span>
+              <div fxLayout="row">
+                <img [src]="'assets/Intranet-Icons/sortby.svg'" style="width:20px; height:20px; margin: 5px;padding: 5px;">
+                <!-- <span style="margin: 5px">Sort by</span> -->
+                <div class="filterbox">
+                  <mat-select [(ngModel)]="employeeObjectData.sortById" placeholder="Sort by" (selectionChange)="searchFilters(employeeObjectData.search)">
+                    <mat-option *ngFor="let i of sortDetails" [value]="i.sortById">
+                      {{i.sortingName}}
+                    </mat-option>
+                  </mat-select>
+                </div>
+               
+              </div>
+              <div fxLayout="row">
+                <img [src]="'assets/Intranet-Icons/filter.svg'" style="width:20px; height:20px; margin: 5px; padding: 5px;">
+                <div class="filterbox">
+                  <mat-select [(ngModel)]="employeeObjectData.workLocationId" placeholder="Work Location" (selectionChange)="searchFilters(employeeObjectData.search)">
+                    <mat-option *ngFor="let i of workLocation" [value]="i.locationId">
+                      {{i.location}}
+                    </mat-option>
+                  </mat-select>
+                </div>
+              </div>
+              <div fxLayout="row">
+                <div class="filterbox">
+                  <mat-select [(ngModel)]="employeeObjectData.domainId" placeholder="Domain" (selectionChange)="searchFilters(employeeObjectData.search);">
+                    <mat-option *ngFor="let i of domains" [value]="i.domainId">
+                      {{i.domainName}}
+                    </mat-option>
+                  </mat-select>
+                </div>
+              </div>
+            </div>
+
+            <!--  <div *ngIf="employeeObjectData.domainId != null" fxLayout="row">
+                <div class="filterbox">
+                  <mat-select [(ngModel)]="employeeObjectData.designationId" placeholder="Sub-Designation" (selectionChange)="searchFilters(employeeObjectData.search)">
+                    <mat-option *ngFor="let i of domains_submenu" [value]="i.designationId">
+                      {{i.designation}}
+                    </mat-option>
+                  </mat-select>
+                </div>
+              </div> -->
+          </div>
+          <div fxFlex style="overflow:auto" fxLayout="column" >
+            <perfect-scrollbar (psYReachEnd)="onScrollEvent($event)" *ngIf="!noDataAvailableInEmployees">
+
+              <div fxFlex fxLayout="row wrap" fxLayoutAlign="space-around">
+                <div *ngFor="let list of listview">
+                  <div fxFlex class="card1 mat-elevation-z1" fxLayout="column">
+                    <div fxLayout="row" fxFlex="40" fxLayoutAlign="start center" fxLayoutGap="10px">
+                      <img  *ngIf="list.imageData == null" [src]="'assets/Intranet-Icons/user-employee.svg'" style="width:20%">
+                      <img  *ngIf="list.imageData != null" src="{{list.imageData}}" style="width:20%;height:50px;border-radius:50%">
+
+                      <div fxLayout="column" fxFlex="80">
+                        <b class="text-color employee-name" [matTooltip]="list.employeeName" matTooltipPosition="above" (click)="employeeIndividualDetails(list.employeeId)">
+                          {{list.employeeName}}</b>
+                        <span style="font-size: 12px">{{list.designation}}</span>
+                      </div>
+
+                    </div>
+                    <div fxFlex="30">
+
+                    </div>
+                    <div fxLayout="row" fxFlex="30" fxLayoutAlign="space-between" class="info">
+                      <div fxFlex *ngIf="50" fxLayoutGap="5px" class="viewDetailsbackground" fxLayoutAlign="center center">
+                        <span class="mer-view-filled viewDetailshideandshow"></span>
+                        <span class="viewDetailshideandshow" (click)="employeeIndividualDetails(list.employeeId)">View details</span>
+                      </div>
+                      <div fxFlex="10">
+
+                      </div>
+                      <div fxFlex="40" fxLayoutAlign="end end">
+                        <a href="{{list.mail}}" style="width:30px;height:30px;
+                                border: 1px solid #2196f3;
+                                border-radius: 50%;margin-right: 10px;" fxLayoutAlign="center center">
+
+                          <img [src]="'assets/Intranet-Icons/outlook.svg'" style="width:20px">
+
+
+                        </a>
+                        <a [href]="sanitize(list.skype)" style="width:30px;height:30px;
+                                border: 1px solid #2196f3;
+                                border-radius: 50%;" fxLayoutAlign="center center">
+
+                          <img [src]="'assets/Intranet-Icons/skype.svg'" style="width:20px">
+                        </a>
+
+
+                      </div>
+                    </div>
+                    <!--                     
+                      <div fxFlex="75" fxLayout="column" class="info" fxLayoutAlign="space-between">
+                        <div style="width:200px;">
+                          <b class="text-color" style="display: inline-block;white-space: nowrap;overflow: hidden !important;text-overflow: ellipsis;width:100%"
+                            [matTooltip]="list.employeeName" matTooltipPosition="above"> {{list.employeeName}}</b>
+  
+                        </div>
+  
+                        <div class="idcolor" fxLayoutAlign="center center" style="width:90%">
+                          <span style="font-size: 12px">{{list.designation}}</span>
+                        </div>
+                        <div fxLayout="row" class="details">
+                          
+                          <div fxFlex fxLayoutAlign="space-between center">
+                            <div fxFlex fxLayoutGap="5px">
+                              <span class="mer-arrow-right-filled"></span>
+                              <span (click)="employeeIndividualDetails(list.employeeId)">View details</span>
+                            </div>
+                            <div>
+                              <span fxLayoutGap="8px">
+                                <a href="{{list.mail}}">
+                                  <img [src]="'assets/Intranet-Icons/outlook2.svg'">
+                                </a>
+                                <a [href]="sanitize(list.skype)">
+                                 
+                                  <img [src]="'assets/Intranet-Icons/skype.svg'">
+                                </a>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div> -->
+
+                  </div>
+                </div>
+              </div>
+            </perfect-scrollbar>
+            <div fxFlex *ngIf="noDataAvailableInEmployees" fxLayoutAlign="center center">
+                <img [src]="'assets/Intranet-Icons/noData.svg'" style="height:100px">
+              </div>
+          </div>
+         
+        </div>
+
+        <div fxFlex="75" fxLayout="column" class="employeesSection" style="background-image:url(assets/Intranet-Icons/bg22.png);"
+          fxLayoutGap="5px" *ngIf="makeTotalDisplayScreenVisible">
+
+
+          <div fxLayout="row" fxLayoutAlign="space-between center" style="border-bottom:1px solid lavender;padding:1%;">
+            <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px" style="display:flex; cursor:pointer; padding: 2px" (click)="gotoEmployee()">
+              <span class="mer-priority-high-filled" style="font-size:25px; transform: rotate(270deg); color: #5587ae"></span>
+              <span style="font-size: 16px; color: #5587ae;">Back</span>
+            </span>
+            <b style="font-size:16px">Profile Info</b>
+            <span class="idcolor">{{details.domain}}</span>
+          </div>
+
+          <div fxFlex fxLayout="column" fxLayoutGap="20px" style="padding:2%">
+            <div fxFlex="30" fxLayout="column" style="background-color: #f8f8f8;color:#636363;border-radius:5px;padding:1%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+              <div fxLayout="row" fxFlex fxLayoutAlign="space-between start">
+                <div fxLayout="column" fxFlex style="height:100%">
+                  <div fxLayoutAlign="start center" fxFlex="33" fxLayoutGap="10px">
+                    <img *ngIf="details.imageData == null" [src]="'assets/Intranet-Icons/user-employee.svg'" style="height:50px">
+                    <img *ngIf="details.imageData != null" src="{{details.imageData}}" style="height:50px;width:50px;border-radius:50%" (click)="zoominimage(details.imageData)">
+                    <div fxLayout="column">
+                      <span style="color:#363084;">
+                        <b style="font-size:20px; ">{{details.employeeName}}</b>
+                      </span>
+                      <span style="font-size:15px; color:grey; margin-bottom:1%">{{details.designation}}</span>
+                    </div>
+
+                  </div>
+                  <div fxLayout="row" fxFlex="33">
+                    <span fxLayoutAlign="start center" fxLayoutGap="10px" fxFlex="25">
+                      <img [src]="'assets/Intranet-Icons/badge.svg'" style="width:18px; height:18px;">
+                      <span>
+                        <b>{{details.employeeId}}</b>
+                      </span>
+                    </span>
+                    <span fxLayoutGap="10px" fxLayoutAlign="start center" fxFlex="40">
+                      <span style="font-size:16px;color:#95af28;font-weight:bold ">D.O.J:</span>
+                      <span>
+                        <b>{{details.dateOfJoining | date:"MMM dd, yyyy"}}</b>
+                      </span>
+                    </span>
+                    <span fxLayoutGap="10px" fxLayoutAlign="start center" fxFlex="35">
+                      <img [src]="'assets/Intranet-Icons/location.svg'" style="width:18px; height:18px;">
+                      <span>
+                        <b>{{details.workLocation}}</b>
+                      </span>
+                    </span>
+                  </div>
+                  <div fxLayout="row" fxFlex="33">
+                    <span fxLayoutAlign="start center" fxLayoutGap="10px" fxFlex="25">
+                      <img [src]="'assets/Intranet-Icons/phone.svg'" style="width:18px; height:18px;">
+                      <span>
+                        <b>{{details.contact}}</b>
+                      </span>
+                    </span>
+                    <span fxLayoutAlign="start center" fxLayoutGap="10px" fxFlex="40">
+                      <img [src]="'assets/Intranet-Icons/email.svg'" style="width:18px; height:18px;">
+                      <span>
+                        <b>{{details.email}}</b>
+                      </span>
+                    </span>
+                    <span fxFlex="35"  fxLayoutAlign="start center" fxLayoutGap="10px">
+                        <span style="font-size:16px;color:#95af28;font-weight:bold ">D.O.B:</span>
+                        <span>
+                            <b>{{details.DOB | date:"MMM dd"}}</b>
+                          </span>
+                    </span>
+                  </div>
+                </div>
+
+                <div fxFlex="10" fxLayoutAlign="end center" fxLayoutGap="15px">
+
+                  <a href="{{details.mail}}">
+                    <img [src]="'assets/Intranet-Icons/outlook.svg'" style="width:20px;">
+                  </a>
+                  <a [href]="sanitize(details.skype)">
+                    <img [src]="'assets/Intranet-Icons/skype.svg'" style="width:20px;">
+                  </a>
+
+
+                </div>
+              </div>
+              <!-- 
+                <div fxLayout="column" style="margin-bottom:2%;">
+                  <div fxLayoutAlign="space-between center">
+                    <span style="font-size:17px; color:#363084; margin-bottom:3px">{{details.employeeName}}</span>
+                    <span fxLayoutGap="15px">
+                      <a href="{{details.mail}}">
+                        <img [src]="'assets/Intranet-Icons/outlook.svg'" style="width:20px; height:20px;">
+                      </a>
+                      <a [href]="sanitize(details.skype)">
+                        <img [src]="'assets/Intranet-Icons/skype.svg'" style="width:20px; height:20px;">
+                      </a>
+                    </span>
+                  </div>
+                  <span style="font-size:15px; color:grey; margin-bottom:1%">{{details.designation}}</span>
+                  <span style="margin-bottom:1%; font-size:15px; display:flex;" fxLayoutGap="10px">
+                    <img [src]="'assets/Intranet-Icons/badge.svg'" style="width:18px; height:18px;">
+                    <span>{{details.employeeId}}</span>
+                  </span>
+                  <span style="margin-bottom:1%">
+                    <span style="font-size:16px;">D.O.J:</span>&nbsp;&nbsp;&nbsp;
+                    <span style="font-size:15px; color:grey;">{{details.dateOfJoining | date}}</span>
+                  </span>
+                  <span style="margin-bottom:1%; font-size:15px; display:flex;" fxLayoutGap="10px">
+                    <img [src]="'assets/Intranet-Icons/phone.svg'" style="width:18px; height:18px;">
+                    <span>{{details.contact}}</span>
+                  </span>
+                  <span style="margin-bottom:1%; font-size:14px" *ngIf="details.technologiesKnown.length != 0">Technologies known</span>
+                 
+                  <span *ngIf="details.technologiesKnown.length != 0" style="margin-bottom:1%">
+                    <span *ngFor="let i of details.technologiesKnown" class="idcolor">{{i.technologiesKnown}}</span>
+                  </span>
+                  <span style="margin-bottom:1%; font-size:15px; display:flex;" fxLayoutGap="10px">
+                    <img [src]="'assets/Intranet-Icons/email.svg'" style="width:18px; height:18px;">
+                    <span>{{details.email}}</span>
+                  </span>
+                  <span style="margin-bottom:1%; font-size:15px; display:flex;" fxLayoutGap="10px">
+                    <img [src]="'assets/Intranet-Icons/location.svg'" style="width:18px; height:18px;">
+                    <span>{{details.workLocation}}</span>
+                  </span>
+                </div> -->
+            </div>
+            <div fxFlex="70" fxLayout="column">
+              <div fxLayout="column">
+
+
+                <div *ngIf="details.employeeId != 21100" fxLayout="column" fxLayoutGap="10px" style="margin-bottom:2%;">
+                  <span style="font-weight:bold;font-size:16px">Reporting Manager</span>
+                  <span fxLayout="row" fxLayoutGap="25px" fxLayoutAlign="start center">
+                    <span class="color">{{details.reportingManager}}</span>
+                    <button mat-raised-button style="background-color:#363084; color: white; border-radius:10px;" (click)="employeesiloview(details.employeeId)">
+                      <span style="color: white;">Silo View</span>
+                    </button>
+                  </span>
+                </div>
+
+              </div>
+
+              <!-- <div fxFlex="10" fxLayoutAlign="end center" fxLayoutGap="15px">
+
+                <a href="{{details.mail}}">
+                  <img [src]="'assets/Intranet-Icons/outlook.svg'" style="width:30px;">
+                </a>
+                <a [href]="sanitize(details.skype)">
+                  <img [src]="'assets/Intranet-Icons/skype.svg'" style="width:30px;">
+                </a>
+
+
+              </div> -->
+            </div>
+          </div>
+
+        </div>
+
+
+        <div fxFlex="25" fxLayout="column" style="background-color:white;border-radius:5px;border-left:2px solid #363084">
+          <div class="appreciationtoolbar" fxLayoutAlign="space-between center">
+            <img [src]="'assets/Intranet-Icons/appreciation.svg'" style="width:30px; height:30px;">
+            <span class="wall" style="color:white; font-weight: bold">Appreciation Wall</span>
+            <img  *ngIf="employeeID != businesslogic.employeeId" [src]="'assets/Intranet-Icons/appreaciation-add.svg'" [matTooltip]="'Appreciate an employee'" matTooltipPosition="above"
+              (click)="appreciationPopup()" style="width:30px; height:30px; cursor: pointer;">
+            <span *ngIf="employeeID == businesslogic.employeeId"></span>
+          </div>
+          <div fxLayout="column" fxFlex *ngIf="!makeTotalDisplayScreenVisible">
+            <div fxLayout="column" fxFlex>
+              <div fxLayout="row" fxFlex="7" fxLayoutAlign="space-around center">
+                <div fxLayoutAlign="center center" fxFlex="50" style="cursor:pointer;height:100%" (click)="allEmployeesAppreciation()" [class.Aprreaciationtabactive]="makeAllEmplyeesAppreciationtab==true"
+                  [class.Aprreaciationtabinactive]="makeAllEmplyeesAppreciationtab==false">All Employees</div>
+                <div fxLayoutAlign="center center" fxFlex="50" style="cursor:pointer;height:100%" (click)="individualAppreciation()" [class.Aprreaciationtabactive]="makeIndividualtab==true"
+                  [class.Aprreaciationtabinactive]="makeIndividualtab==false">Your Appreciations</div>
+
+              </div>
+
+              <div fxFlex style="overflow:auto" *ngIf="makeAllEmplyeesAppreciationtab==true">
+                <perfect-scrollbar (psYReachEnd)="onScrollAppreciationEvent($event)" *ngIf="appreciationDetails.length != 0">
+                  <div fxLayout="column">
+
+                    <div *ngFor="let i of appreciationDetails" style="border-bottom: 1px solid #ddd;">
+                      <div fxFlex fxLayout="row">
+                        <div fxFlex="15">
+                            <img *ngIf="i.appreciationToName != null && i.imageData == null" [src]="'assets/Intranet-Icons/user-employee.svg'" class="appreciation_img">
+                            <img *ngIf="i.projectName != null" [src]="'assets/Intranet-Icons/project_appreciation.svg'" class="appreciation_img">
+                            <img *ngIf="i.imageData != null" src="{{i.imageData}}" class="appreciation_img" style="height:35px">
+                        </div>
+
+                        <div fxFlex="85" fxLayout="column" fxLayoutGap="10px" style="margin:1%">
+                          <div>
+                            <b *ngIf="i.appreciationToName != null" class="text-color" style="cursor: pointer" [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover">{{i.appreciationToName}}</b>
+                            <b *ngIf="i.projectName != null" class="text-color" style="cursor: pointer">{{ i.projectName}}</b>
+                            <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" mdePopoverPositionY="below">
+                              <mat-card style="max-width: 180px; padding: 10px !important">
+                                <mat-card-content>
+                                  <img [src]="'assets/Intranet-Icons/user.svg'" (click)="gotoEmployeePage(i.appreciationTo)" style="width:15px; height:15px; margin-right:8px;cursor:pointer">
+                                  <a href="{{i.mail}}">
+                                    <img [src]="'assets/Intranet-Icons/outlook.svg'" style="width:15px; height:15px; margin-right:8px">
+                                  </a>
+                                  <a [href]="sanitize(i.skype)">
+                                    <img [src]="'assets/Intranet-Icons/skype.svg'" style="width:15px; height:15px;">
+                                  </a>
+                                </mat-card-content>
+                              </mat-card>
+                            </mde-popover>
+
+                          </div>
+
+                          <div class="word-wrap">
+                            <span *ngIf="!i.expand" [innerText]="i.contentOfAppreciation?.length > 300 ? (i.contentOfAppreciation.slice(0,140) + '...') : i.contentOfAppreciation"
+                              style="max-height: 5.25em; overflow: hidden;"></span>
+                            <span *ngIf="i.expand" [innerText]="i.contentOfAppreciation"></span>&nbsp;
+                            <span *ngIf="i.contentOfAppreciation?.length > 300" style="cursor: pointer; color: #45b7d8; font-size:12px" (click)="i.expand = !i.expand">{{i.expand ? 'Show less' : 'Show more'}}</span>
+                          </div>
+                          <div fxLayout="row">-
+                            <span fxFlex="60" style="font-size:12px;display: inline-block;white-space: nowrap;overflow: hidden !important;text-overflow: ellipsis;width:100%;color:#636363">
+                              {{i.appreciatedByName}}
+
+                            </span>
+
+                            <span style="font-size:12px;" fxFlex="40" fxLayoutAlign="center start">
+                              <img [src]="'assets/Intranet-Icons/time.svg'" style="width:15px; height:15px;"> &nbsp;&nbsp;{{i.createdDate | date:"MMM dd, yyyy"}}</span>
+
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </perfect-scrollbar>
+                <div fxLayoutAlign="center center" style="height:100%" *ngIf="appreciationDetails.length == 0">
+                  <img [src]="'assets/Intranet-Icons/no_appreciations.svg'" style="height:50px">
+                </div>
+              </div>
+              <div fxFlex style="overflow:auto" *ngIf="makeIndividualtab==true">
+                <perfect-scrollbar *ngIf="IndividualAppreciation.length != 0">
+                  <div fxLayout="column">
+
+
+                    <div *ngFor="let i of IndividualAppreciation" style="border-bottom: 1px solid #ddd;">
+                      <div fxFlex fxLayout="row">
+                        <div fxFlex="15">
+                          <img *ngIf="i.imageData == null" [src]="'assets/Intranet-Icons/user-employee.svg'" class="appreciation_img">
+                          <img *ngIf="i.imageData != null" src="{{i.imageData}}" class="appreciation_img" style="height:35px">
+                        </div>
+
+                        <div fxFlex="85" fxLayout="column" fxLayoutGap="10px" style="margin:1%">
+                          <!-- <div>
+                              <b class="text-color">{{i.appreciationToName}}</b>
+                            </div> -->
+
+
+                          <div class="word-wrap" style="padding-top: 2%">
+                            <span *ngIf="!i.expand" [innerText]="i.contentOfAppreciation?.length > 300 ? (i.contentOfAppreciation.slice(0,140) + '...') : i.contentOfAppreciation"
+                              style="max-height: 5.25em; overflow: hidden;"></span>
+                            <span *ngIf="i.expand" [innerText]="i.contentOfAppreciation"></span>&nbsp;
+                            <span *ngIf="i.contentOfAppreciation?.length > 300" style="cursor: pointer; color: #45b7d8; font-size:12px" (click)="i.expand = !i.expand">{{i.expand ? 'Show less' : 'Show more'}}</span>
+                          </div>
+                          <div fxLayout="row">-
+                            <span fxFlex="60" style="font-size:12px;display: inline-block;white-space: nowrap;overflow: hidden !important;text-overflow: ellipsis;width:100%;color:#636363">
+                              {{i.appreciatedByName}}
+
+                            </span>
+
+                            <span style="font-size:12px;" fxFlex="40" fxLayoutAlign="center start">
+                              <img [src]="'assets/Intranet-Icons/time.svg'" style="width:15px; height:15px;"> &nbsp;&nbsp;{{i.createdDate | date:"MMM dd, yyyy"}}</span>
+
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </perfect-scrollbar>
+                <div fxLayoutAlign="center center" style="height:100%" *ngIf="IndividualAppreciation.length == 0">
+                  <img [src]="'assets/Intranet-Icons/no_appreciations.svg'" style="height:50px">
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div fxLayout="column" fxFlex  *ngIf="makeTotalDisplayScreenVisible">
+            <div fxLayout="column" fxFlex  fxLayoutGap="10px">
+              <div fxLayout="row" fxFlex="8" fxLayoutAlign="space-between" style="padding:1%;">
+                <h3 style="color:#98b243;margin-left:5px">{{details.employeeName}}'s&nbsp; Appreciations</h3>
+
+              </div>
+              <div fxFlex style="overflow:auto">
+                <perfect-scrollbar *ngIf=" myAppreciation.length != 0">
+                  <div fxLayout="column" fxFlex>
+                    <div *ngFor="let i of  myAppreciation" style="border-bottom: 1px solid #ddd;">
+                      <div fxFlex fxLayout="row">
+                        <!-- <div fxFlex="15">
+                          <img [src]="'assets/Intranet-Icons/user-employee.svg'" class="appreciation_img">
+                        </div> -->
+
+                        <div fxFlex fxLayout="column" fxLayoutGap="10px" style="margin:1%">
+                          <!-- <div>
+                              <b class="text-color">{{i.appreciationToName}}</b>
+                            </div> -->
+
+
+                          <div class="word-wrap" style="padding-top: 2%">
+                            <span *ngIf="!i.expand" [innerText]="i.contentOfAppreciation?.length > 300 ? (i.contentOfAppreciation.slice(0,140) + '...') : i.contentOfAppreciation"
+                              style="max-height: 5.25em; overflow: hidden;"></span>
+                            <span *ngIf="i.expand" [innerText]="i.contentOfAppreciation"></span>&nbsp;
+                            <span *ngIf="i.contentOfAppreciation?.length > 300" style="cursor: pointer; color: #45b7d8; font-size:12px" (click)="i.expand = !i.expand">{{i.expand ? 'Show less' : 'Show more'}}</span>
+                          </div>
+                          <div fxLayout="row">
+                            <span fxFlex="60" style="font-size:12px;display: inline-block;white-space: nowrap;overflow: hidden !important;text-overflow: ellipsis;width:100%;color:#636363; padding: 1%">
+                              - {{i.appreciatedByName}}
+
+                            </span>
+
+                            <span style="font-size:12px; padding: 1%" fxFlex="40" fxLayoutAlign="center start">
+                              <img [src]="'assets/Intranet-Icons/time.svg'" style="width:15px; height:15px;"> &nbsp;&nbsp;{{i.createdDate | date:"MMM dd, yyyy"}}</span>
+
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </perfect-scrollbar>
+                <div *ngIf=" myAppreciation.length == 0" fxFlex fxLayoutAlign="center center">
+                  <img [src]="'assets/Intranet-Icons/noAppreciations.svg'" style="height:50px">
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- closing of appreciation -->
+
+      </div>
+    </div>
+  </div>
+</div>

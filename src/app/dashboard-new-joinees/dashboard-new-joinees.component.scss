@@ -1,0 +1,35 @@
+.texttile {
+    background-color:#469fe4;
+    padding: 5px;
+    margin: 0;
+    border-radius:8px;
+    font-size:12px;
+    color:white;
+    padding-right: 12px;
+    padding-left: 12px;
+}
+
+.detailstile {
+    background-color:#ddd;
+    padding: 5px;
+    margin: 0;
+    border-radius:8px;
+    font-size:14px;
+}
+
+.gap {
+    margin-bottom:15px; 
+    color: #1A1A1A
+}
+
+.content {
+    border-bottom:1px solid #ddd; 
+    padding: 5px; 
+}
+* {
+  
+    font-family: 'Lato';
+    outline: 0;
+    font-size: 14px;
+    color: #444444;
+}

@@ -1,0 +1,211 @@
+<div fxLayout="column" fxFlex style="background-color: white;border-radius:5px;background-image:url(assets/Intranet-Icons/bg22.png);  border-top-left-radius: 0px !important;">
+  <div fxLayout="row" fxFlex>
+    <div fxLayout="column" fxFlex>
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutGap.xs="2px" fxLayoutAlign="space-between" style="padding:1%;border-bottom:1px solid lavender;margin-bottom: 0px;">
+        <div fxLayoutAlign="center center" class="searchbox">
+          <input aria-label="search" placeholder="Search" (keyup)="searchAndDurationEvents(interactiveForumsdata.search)" (keyup.enter)='searchAndDurationEvents(interactiveForumsdata.search)'
+            [(ngModel)]="interactiveForumsdata.search" type="search" style="border:none;background-color: #ebebeb;">
+          <img [src]="'assets/Intranet-Icons/search.svg'" (click)="searchAndDurationEvents(interactiveForumsdata.search)" width="18"
+            height="18" style="margin:0px !important;">
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+          <!-- <span *ngIf="clearSearch" (click)="resetFilters()" style="text-decoration: underline; color:#245d99; padding: 10px">Reset filters</span> -->
+          <img style="width:23px; height:28px;" *ngIf="clearSearch"  [matTooltip]="'Reset filter'" matTooltipPosition="above"  (click)="resetFilters()" [src]="'assets/Intranet-Icons/reset.svg'">
+          <!-- <div class="updatebox" (click)="startdiscussion()">Post an update</div> -->
+          <div class="start-discussion-button" (click)="startdiscussion()" fxLayoutAlign="center center" style="height:35px;width:135px; cursor: pointer"
+            fxLayoutGap="3px">
+            <img [src]="'assets/Intranet-Icons/start-discussion.svg'" style="height: 15px">
+            <span style="color: white">Start discussion</span>
+          </div>
+          <span class="funnel">
+            <img [src]="'./assets/Intranet-Icons/filter.svg'" width="18" height="18">
+          </span>
+          <div class="filterbox" *ngIf="showEventsFilter">
+            <mat-select [(ngModel)]="interactiveForumsdata.categoryId" placeholder="All" (selectionChange)="searchAndDurationEvents(interactiveForumsdata.search)">
+              <mat-option *ngFor="let i of categoryFilterList" [value]="i.categoryId">
+                {{i.categoryName}}
+              </mat-option>
+            </mat-select>
+          </div>
+        
+          <div class="filterbox" *ngIf="showTimeFilter">
+              <mat-select [(ngModel)]="interactiveForumsdata.filterId" placeholder="This Week" (selectionChange)="searchAndDurationEvents(interactiveForumsdata.search)">
+                <mat-option *ngFor="let i of timeFilterList" [value]="i.newsAndUpdatesFilterId">
+                  {{i.filter}}
+                </mat-option>
+              </mat-select>
+            </div>
+        </div>
+      </div>
+      <div fxFlex style="overflow:auto;margin:1px" fxLayout="column" *ngIf="!noDataAvailableInIF">
+        <perfect-scrollbar (psYReachEnd)="onScrollEvent($event)">
+          <div *ngFor="let i of interactiveforumdata;index as j" style="margin:0 1% 0 0;">
+
+            <div class="border-line-after-event" style="cursor:pointer;min-height:300px;max-height:500px" (click)="displayCompleteData(i.interactionForumsId,i.categoryId,$event,'notimage')" fxLayout="column" >
+
+              <div fxLayoutAlign="end start" *ngIf="showEventsFilter" fxFlex="5">
+
+                <span fxFlex fxLayoutAlign="end start">
+                  <button style="color: white;border:none;height:25px" [style.background-color]="i.colourCode">{{i.categoryName}}</button>
+                </span>
+              </div>
+              <div fxLayoutAlign="space-between" style="cursor:pointer;margin:0 1% 0 1%" fxLayout="row" fxFlex="20">
+                <div fxLayout="column" fxLayoutGap="3px" fxFlex="80">
+                  <div >
+                    <b style="font-size:16px">{{i.eventName}}</b>
+
+                  </div>
+                  <div fxLayout="row" fxLayout.xs="column"> <!-- *ngIf="i.categoryId !== 7" -->
+                    <div fxLayoutAlign="start center" fxLayoutAlign.xs="start start">Posted On &nbsp;
+                      <img [src]="'assets/Intranet-Icons/time.svg'" style="height:15px;margin-right: 5px;"><span>{{i.createdDate | date:"MMM dd, yyyy"}}</span> </div>
+                    <span class="spaceAfterCreatedBy" fxLayoutAlign="center center" fxLayoutAlign.xs="start center">&nbsp;&nbsp; by &nbsp; &nbsp;
+
+                      <span style="color: #363084; cursor: pointer; font-weight: bold" [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover">{{i.createdByName}}
+                      </span>    
+                      <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false">
+                        <mat-card style="max-width: 180px; padding: 10px !important">
+                          <mat-card-content>
+                            <img [src]="'assets/Intranet-Icons/user.svg'" (click)="gotoEmployeePage(i.createdBy)" style="width:15px; height:15px; margin-right:8px;cursor:pointer">
+                            <a href="{{i.mail}}"> 
+                              <img [src]="'assets/Intranet-Icons/outlook.svg'" style="width:15px; height:15px; margin-right:8px">
+                            </a>
+                            <a [href]="sanitize(i.skype)">
+                              <img [src]="'assets/Intranet-Icons/skype.svg'" style="width:15px; height:15px;">
+                            </a>
+                          </mat-card-content>
+                        </mat-card>
+                      </mde-popover>
+
+                    </span>
+
+
+                  </div>
+
+                  <div fxLayoutAlign="start center" fxLayoutAlign.xs="start start" *ngIf="i.categoryId === 7">Poll Starts On &nbsp;
+                    <img [src]="'assets/Intranet-Icons/time.svg'" style="height:15px;margin-right: 5px;"><b style="color:black">{{i.eventStartDate | date:"MMM dd, yyyy h:mm a"}}</b> &nbsp; - &nbsp;
+                    <span>Poll Ends On</span> &nbsp;&nbsp;
+                    <img [src]="'assets/Intranet-Icons/time.svg'" style="height:15px;margin-right: 5px;"><b style="color:black">{{i.eventEndDate | date:"MMM dd, yyyy h:mm a"}}</b> 
+
+                  </div>
+
+
+                </div>
+                <!-- <div fxLayout="column" fxFlex fxLayoutGap="5px" fxLayoutAlign="center center">
+
+
+                    <div *ngIf="i.categoryId != 7" fxLayoutGap="10px" fxLayout="row" fxLayoutAlign="end center">
+                      <span fxLayoutAlign="center center">
+                        <img [src]="'assets/Intranet-Icons/comment.svg'" height="20" (click)="displayCompleteData(i.interactionForumsId,i.categoryId)"
+                          style="margin:0 5px 0 5px">{{i.CLDData[0]?.commentsCount}}</span>
+
+                      <span fxLayoutAlign="center center">
+                        <img [src]="'assets/Intranet-Icons/like.svg'" *ngIf="i.CLDData[0]?.liked == null || i.CLDData[0]?.liked == false" (click)="likedTheEvent(i.interactionForumsId,i.CLDData[0],true)"
+                          height="20" style="margin:0 5px 0 5px">
+                        <img [src]="'assets/Intranet-Icons/like-filled.svg'" *ngIf="i.CLDData[0]?.liked == true" height="20" style="margin:0 5px 0 5px">{{i.CLDData[0]?.likesCount}}</span>
+
+                      <span fxLayoutAlign="center center">
+                        <img [src]="'assets/Intranet-Icons/dislike.svg'" *ngIf="i.CLDData[0]?.liked == null || i.CLDData[0]?.liked == true" (click)="likedTheEvent(i.interactionForumsId,i.CLDData[0],false)"
+                          height="20" style="margin:0 5px 0 5px">
+                        <img [src]="'assets/Intranet-Icons/dislike-filled.svg'" *ngIf="i.CLDData[0]?.liked == false" height="20" style="margin:0 5px 0 5px">{{i.CLDData[0]?.dislikesCount}}
+                      </span>
+                    </div>
+                  
+                  </div> -->
+
+
+
+              </div>
+
+              <div fxFlex="75" >
+
+
+                <div style="margin:1% 1% 1% 1%;cursor:pointer" *ngIf="i.categoryId != 7" fxLayoutAlign="center center" fxFlex>
+                  <span *ngIf="i.imageData.length != 0" fxFlex="10" fxFlex.xs="30" fxFlex.sm="15">
+                    <img style="width:100%;height:100px" [src]="i.imageData[0].image">
+                  </span>
+                  <span *ngIf="i.imageData.length == 0" fxFlex="10" fxFlex.xs="30" fxFlex.sm="15">
+                    <img style="width:100%;height:100px" [src]="'assets/Intranet-Icons/picture.svg'">
+                  </span>
+                  <div fxFlex="1">
+
+                  </div>
+                  <div fxFlex="69" fxLayout="column" fxLayoutAlign="center start" fxFlex.sm="88">
+                    <span class="block-with-text" [innerHTML]="i.eventDescription | safeHtml"></span>
+                  </div>
+                  <div fxFlex="20">
+                    <div *ngIf="i.categoryId != 7" fxLayoutGap="10px" fxLayout="row" fxLayoutAlign="end center">
+                      <span fxLayoutAlign="center center" (click)="displayCompleteData(i.interactionForumsId,i.categoryId,$event,'commentcall')">
+                        <img [src]="'assets/Intranet-Icons/comment.svg'" height="20" style="margin:0 5px 0 5px">{{i.CLDData[0]?.commentsCount}}</span>
+
+                      <span fxLayoutAlign="center center">
+                        <img [src]="'assets/Intranet-Icons/like.svg'" *ngIf="i.CLDData[0]?.liked == null || i.CLDData[0]?.liked == false" (click)="likedTheEvent(i.interactionForumsId,i.CLDData[0],true)"
+                          height="20" style="margin:0 5px 0 5px">
+                        <img [src]="'assets/Intranet-Icons/like-filled.svg'" *ngIf="i.CLDData[0]?.liked == true" height="20" style="margin:0 5px 0 5px">{{i.CLDData[0]?.likesCount}}</span>
+
+                      <!-- <span fxLayoutAlign="center center">
+                        <img [src]="'assets/Intranet-Icons/dislike.svg'" *ngIf="i.CLDData[0]?.liked == null || i.CLDData[0]?.liked == true" (click)="likedTheEvent(i.interactionForumsId,i.CLDData[0],false)"
+                          height="20" style="margin:0 5px 0 5px">
+                        <img [src]="'assets/Intranet-Icons/dislike-filled.svg'" *ngIf="i.CLDData[0]?.liked == false" height="20" style="margin:0 5px 0 5px">{{i.CLDData[0]?.dislikesCount}}
+                      </span> -->
+                    </div>
+
+                  </div>
+                  <!-- <span fxFlex="90" class="block-with-text" fxFlex.xs="70">{{i.eventDescription}}</span> -->
+                </div>
+
+                <div *ngIf="i.categoryId == 7" style="margin:1% 1% 1% 1%;cursor:pointer" fxLayoutAlign="center center" fxFlex>
+                  <span *ngIf="i.imageData.length != 0" style="cursor:pointer" fxFlex="10" fxFlex.xs="30" fxFlex.sm="15">
+                    <img style="width:100%;height:100px" [src]="i.imageData[0].image">
+                  </span>
+                  <span *ngIf="i.imageData.length == 0" style="cursor:pointer" fxFlex="10" fxFlex.xs="30" fxFlex.sm="15">
+                    <img style="width:100%;height:100px" [src]="'assets/Intranet-Icons/polling.svg'">
+                  </span>
+
+                  <div fxFlex="1">
+
+                    </div>
+                  <div fxFlex="59" fxLayout="column" fxLayoutAlign="center start">
+                    <mat-radio-group class="blueRadioButton" [disabled]="todayDate > i.eventEndDate || todayDate < i.eventStartDate">
+                      <!-- <mat-radio-button value="1" style="display: block;background-color:  #d5d5d5; padding: 5px;margin-bottom:5px;border-radius:13px;">
+                        Yes i want to participate</mat-radio-button>
+                      <mat-radio-button value="2" style="display: block;background-color:  #d5d5d5; padding: 5px;border-radius: 13px;">No,i dont want to participate</mat-radio-button> -->
+                   
+                      <div *ngFor="let x of i.pollingOptions" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+                        <mat-radio-button class="poll-design" (change)="pollOptionSelected($event,x,i)" [checked]="x.OptionOpted === true" [value]="x" >
+                         
+                          <span [matTooltip]="(todayDate > i.eventEndDate || todayDate < i.eventStartDate) ? 'Either polling has not started or the end date is exceeded' : x.optionDescription">{{x.optionDescription}}</span>
+                        </mat-radio-button>
+                        <span>{{x.optionPercentage}}%</span>
+
+                      </div>
+                      <div fxLayout="row" fxLayoutGap="5px" *ngIf="!(todayDate > i.eventEndDate || todayDate < i.eventStartDate)">
+                          <input style="border:1px solid #ebebeb;border-radius: 13px;padding:5px" maxlength="150"  matInput placeholder="Suggest option" [(ngModel)]="i.suggestedoption">
+                          <button  [ngClass]="{'disable_suggest_button' : !i.suggestedoption, 'enable_suggest_button' : i.suggestedoption}" [disabled]="!i.suggestedoption" (click)="saveSuggestedPollingOption(i.suggestedoption,i.interactionForumsId,j)">Suggest</button>
+                      </div>
+ 
+                    </mat-radio-group>
+                    
+                    
+                  </div>
+                  <div fxFlex="30" style="cursor:pointer">
+                    <div *ngIf="i.categoryId === 7 && i.totalPollingCount > 0.001" fxLayoutAlign="center center" fxLayoutAlign.xs="start start"
+                      fxLayout="row">
+                      <round-progress [current]="i.totalPollingCount" [max]=i.activeEmployeesCount [radius]="20" [color]="'#00b6f8'" [background]="'#375a64'" [stroke]="8"></round-progress> &nbsp; &nbsp;
+                      <span style="font-size: 16px">{{i.totalPollingCount}}/{{i.activeEmployeesCount}} Votes</span>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </perfect-scrollbar>
+
+      </div>
+      <div *ngIf="noDataAvailableInIF" fxFlex fxLayoutAlign="center center">
+        <img [src]="'assets/Intranet-Icons/noData.svg'" style="height:100px">
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,120 @@
+.mat-dialog-container {
+    padding: 0px !important;
+
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+    background-color: #EEEFF1
+}
+
+.mat-dialog-content {
+    margin: 0px !important;
+}
+
+.submit {
+   //  padding: 6px;
+    color: black !important;
+   
+  //  border-radius: 9px;
+    text-align: center;
+    font-size: 14px !important;
+    cursor: pointer;
+}
+
+// .cancel {
+//    color:red;
+//     text-align: center;
+//    border:1px solid red;
+//     //    padding: 6px;
+//  //   border-radius: 10px;
+//     background-color: white;
+//     font-size: 14px !important;
+//     cursor: pointer;
+// }
+
+.text-area-style {
+    .mat-form-field-wrapper {
+        padding-bottom: 0px !important;
+        padding-top: 5px !important;
+    }
+    .mat-form-field {
+        width: 100%;
+    }
+}
+
+.mat-form-field-prefix .mat-icon-button, .mat-form-field-suffix .mat-icon-button {
+    color: #139c9a;
+}
+
+
+.mat-chip-list-wrapper {
+    margin-bottom: 10px !important;
+}
+
+.background-color1 {
+    background-image: grey;
+}
+
+.background-changed {
+    background: linear-gradient(#ffbd6d, #ff917b);
+}
+.ui-calendar{
+    width:100%;
+}
+.ui-calendar.ui-calendar-w-btn input{
+    width:80%;
+}
+.angular-editor-textarea{
+    min-height:100px !important;
+    font-size:none;
+}
+
+.applyglobalclass {
+  
+    font-family: 'Lato';
+    outline: 0;
+    font-size: 14px;
+    color: #444444;
+}
+.endtimeclassbeforeED {
+    
+    pointer-events: none;
+}
+.endtimeclassbeforeSD {
+    
+    pointer-events: auto;
+}
+.mat-form-field-infix{
+    width:100% !important;
+}
+#editor{
+    padding-top:1rem;
+}
+.angular-editor-button[title="Insert Image"],
+.angular-editor-button[title="Unlink"],
+.angular-editor-button[title="Insert Link"],
+.angular-editor-button[title="Background Color"],
+.angular-editor-button[title="HTML Code"] {
+  display: none;
+}
+
+[data-cmd=insertLink],[data-cmd=insertImage],[data-cmd=insertVideo],[data-cmd=insertFile],[data-cmd=insertTable],[data-cmd=emoticons],[data-cmd=specialCharacters],[data-cmd=print],[data-cmd=getPDF],[data-cmd=help],[data-cmd=html],[data-cmd=quote],[data-cmd=inlineClass],[data-cmd=paragraphStyle] {
+    display:none;
+  }
+  .fr-wrapper div a {
+     background: white !important;
+     pointer-events: none;
+  }
+  .fr-toolbar{
+    position: relative !important;
+  }
+ .fr-quick-insert{
+     display: none;
+ }
+ .fr-sticky-dummy{
+    height:0px !important;
+    display:none;
+  }
+  .dp-time-select-control-up,.dp-time-select-control-down{
+      width:30px !important;
+  }

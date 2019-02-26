@@ -1,0 +1,41 @@
+<div fxLayout="column" fxFlex style="margin: 5px;"  style="overflow:auto">
+  <!-- <div fxFlex fxLayout="row">
+    <div fxFlex="72" class="employees" fxLayout="column" style="background-color:white; overflow:auto">
+      <router-outlet></router-outlet>
+    </div>
+    <div fxFlex="28" class="appreciation">
+      <div class="toolbar" fxLayoutAlign="space-between center">
+        <img [src]="'assets/Intranet-Icons/appreciation.svg'" style="width:40px; height:40px;">
+        <span class="wall">Appreciation Wall</span>
+        <img [src]="'assets/Intranet-Icons/pdf.svg'" style="width:40px; height:40px;">
+      </div>
+      <div>
+        <mat-tab-group>
+          <mat-tab label="All Employees">
+            <div fxFlex fxLayout="row" *ngFor="let i of appreciationWall" style="border-bottom: 1px solid #ddd;">
+              <img [src]="'assets/Intranet-Icons/user.svg'" class="appreciation_img">
+              <div fxLayout="column" style="margin:5px">
+                <b style="margin:8px">{{i.name}}</b>
+                <div class="word-wrap">{{i.description}}</div>
+                <span>- {{i.writtenBy}} &nbsp;&nbsp;
+                  <img [src]="'assets/Intranet-Icons/clock.svg'" style="width:15px; height:15px;"> &nbsp;&nbsp;{{i.date}}</span>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Your Appreciations">
+            <div fxFlex fxLayout="row" *ngFor="let i of appreciationWall" style="border-bottom: 1px solid #ddd;">
+              <img [src]="'assets/Intranet-Icons/user.svg'" class="appreciation_img">
+              <div fxLayout="column" style="margin:5px">
+                <b style="margin:8px">{{i.name}}</b>
+                <div class="word-wrap">{{i.description}}</div>
+                <span>- {{i.writtenBy}} &nbsp;&nbsp;
+                  <img [src]="'assets/Intranet-Icons/clock.svg'" style="width:15px; height:15px;"> &nbsp;&nbsp;{{i.date}}</span>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+  </div> -->
+  <router-outlet></router-outlet>
+</div>

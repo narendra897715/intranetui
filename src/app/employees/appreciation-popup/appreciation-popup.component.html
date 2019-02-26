@@ -1,0 +1,78 @@
+<div fxFlex fxLayout="column">
+  <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center" style="background-color:#edf0f3; height:55px;">
+    <span class="color-toolbar-header">Appreciate</span>
+    <mat-icon (click)="onNoClick()" class="color" style="cursor: pointer">&#xE5CD;</mat-icon>
+  </mat-toolbar>
+  <div mat-dialog-content>
+    <form fxLayout="column" fxLayout.xs="column" fxLayout.sm="column" fxLayout.md="column" style="padding:20px;" [formGroup]="form">
+
+      <div fxFlex="20" fxLayout="column" *ngIf="mainPage == ''">
+        <!-- <mat-form-field fxFlex="30">
+          <mat-select name="employeeSelection" placeholder="Choose Employee">
+            <mat-option *ngFor="let i of employee_names" [value]="i.employeeId">
+              {{i.employeeName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field> -->
+        <div fxLayout="row" fxLayoutGap="20px">
+          <label>Appreciate: </label>
+          <mat-radio-group class="example-radio-group" formControlName="appreciation_type" (change)="test(appreciationType)" [(ngModel)]="appreciationType">
+            <mat-radio-button class="example-radio-button" style="margin-right: 10px" value="0">Employee</mat-radio-button>
+            <mat-radio-button class="example-radio-button" value="1">Project</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <mat-form-field fxFlex="20" [floatLabel]="'never'">
+          <input matInput placeholder="Choose Employee/Team" aria-label="Keyword" [matAutocomplete]="auto" [(ngModel)]="employeeSearch"
+            [formControl]="autoCompleteCtrl" [disabled]="appreciationType == null">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let i of (appreciationType == 0 ? filteredData : filteredProjectList)" [value]="appreciationType == 0 ? i.employeeName : i.name"
+              style="line-height: 16px !important; height: 50px;">
+              {{appreciationType == 0 ? i.employeeName : i.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+      <div fxFlex="70" fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxFlex fxLayout="column">
+          <mat-form-field fxFlex appearance="outline" class="appreciation-box">
+            <textarea matInput name="AppreciationContent" formControlName="appreciation_content" placeholder="Write your appreciation message here.."
+              style="height:100px"></textarea>
+          </mat-form-field>
+          <div *ngIf="form.controls['appreciation_content'].hasError('maxlength')">
+            <span style="color:red; font-size: 11px">Max character count exceeded.</span>
+          </div>
+        </div>
+      </div>
+
+
+      <div fxFlex="20" fxLayout="column">
+        <div fxFlex="20" style="font-weight: bold; color: #ee6642; margin-top: 1%">Note:</div>
+        <div fxFlex="80" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-between center">
+          <div>
+            <ol style="padding-left: 20px;">
+              <li>The appreciated employee will receive an email once you have posted.</li>
+              <li>Make sure that you are not posting negative feedback for the employee. Please use DAP Application in that case.</li>
+              <li>You can’t edit or delete the appreciation once posted.</li>
+              <li>Fill all fields to send an appreciation.</li>
+            </ol>
+          </div>
+          <div fxLayout="row" fxLayoutGap="10px">
+            <button mat-raised-button class="submit" *ngIf="mainPage != ''" [ngClass]="{'submit-styling1' : !form.valid, 'submit-styling' : form.valid}"
+              [disabled]="!form.valid" (click)="sendAppreciation()">
+              <img [src]="'assets/Intranet-Icons/post.svg'" style="margin-right:4px; height:15px">Send</button>
+            <button mat-raised-button class="submit" *ngIf="mainPage == ''" [ngClass]="{'submit-styling1' : (appreciationType == 0 ? (!form.valid || !employeeSelected) : (!form.valid || !project_id)), 'submit-styling' : (appreciationType == 0 ? (form.valid && employeeSelected) : (form.valid && project_id))}"
+              [disabled]="appreciationType == 0 ? (!form.valid || !employeeSelected) : (!form.valid || !project_id)" (click)="sendAppreciation()">
+              <img [src]="'assets/Intranet-Icons/post.svg'" style="margin-right:4px; height:15px">Send</button>
+            <button mat-raised-button class="cancel" style="border: 1px solid #ef6d4b;" (click)="onNoClick()">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+
+      <div fxFlex="10" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center" style="margin-top: 18px;">
+
+      </div>
+    </form>
+  </div>
+
+</div>

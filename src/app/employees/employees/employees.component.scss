@@ -1,0 +1,94 @@
+.hover-class {
+    display: none
+}
+
+.hover-class:hover {
+    display: flex
+}
+
+.searchbox {
+    padding: 10px;
+    border-radius: 10px;
+    width: 110px;
+    font-size: 14px !important;
+    width: 210px;
+    background-color: #ebebeb;
+}
+
+.idcolor {
+    color: #363084;
+    border: 1px solid #363084;
+    border-radius: 10px;
+    padding: 5px; // margin-top: 10px;
+}
+
+.color {
+    color: #98b243;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.appreciation-self {
+    background-color: white;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 1%;
+    overflow: auto;
+}
+
+.Aprreaciationtabinactive {
+    background-color: #aeaeae;
+    color: white;
+}
+
+.Aprreaciationtabactive {
+    background-color: white;
+    color: #99b230;
+}
+
+.card1:hover>.info>.viewDetailsbackground>.viewDetailshideandshow {
+    // background-color: #363084;
+    // color: white;
+    color: #2196f3;
+}
+
+.card1:hover>.info>.viewDetailsbackground {
+    // background-color: #363084;
+    // color: white;
+    background-color: #f3f3f3;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.card1:hover {
+    border: 2px solid #2196f3;
+}
+
+.card1 {
+    border: 2px solid white;
+}
+
+.viewDetailshideandshow {
+    color: white;
+}
+
+.viewDetailsbackground {
+    background-color: white;
+    border-radius: 20px;
+}
+
+.employee-name {
+    display: inline-block;
+  //  white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+    width: 100%;
+    cursor: pointer
+}
+* {
+  
+    font-family: 'Lato';
+    outline: 0;
+    font-size: 14px;
+    color: #444444;
+}

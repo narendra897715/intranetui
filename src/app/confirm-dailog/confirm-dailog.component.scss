@@ -1,0 +1,27 @@
+.yesclass{
+    margin-right:5px;color:#444444;
+}
+.noclass{
+    color:#444444;
+}
+.yesclass:hover {
+    background-color: #95af28;
+   
+}
+.noclass:hover{
+    background-color: #95af28;
+   
+}
+.noclass:hover span{
+    color:white;
+}
+.yesclass:hover span{
+    color:white;
+}
+* {
+  
+    font-family: 'Lato';
+    outline: 0;
+    font-size: 14px;
+    color: #444444;
+}

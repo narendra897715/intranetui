@@ -1,0 +1,104 @@
+<div fxFlex fxLayout="column">
+  <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center" style="background-color:#edf0f3; height:55px;">
+    <span class="color-toolbar-header">Post an update</span>
+    <mat-icon (click)="onNoClick()" class="color" style="cursor: pointer">&#xE5CD;</mat-icon>
+  </mat-toolbar>
+
+  <form fxLayout="column" fxLayout.xs="column" fxLayout.sm="column" fxLayout.md="column" style="padding:20px;" [formGroup]="form">
+
+    <div fxFlex="20" fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxFlex="30" fxLayout="column">
+        <label>Posting Category</label>
+        <mat-form-field>
+          
+          <mat-select  name="categoryId" formControlName="categoryId" placeholder="category">
+            <mat-option *ngFor="let cat of data_source" [value]="cat.categoryId" [innerText]="cat.categoryName">
+            </mat-option>
+          </mat-select>
+          <mat-error>  
+              <span *ngIf="!form.get('categoryId').valid">Category is required</span>  
+          </mat-error> 
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="5"></div>
+
+      <div fxFlex="30" fxLayout="column">
+        <label>Start Date</label>
+        <mat-form-field [floatLabel]="'never'">
+          <input name="eventStartDate" formControlName="eventStartDate"  autocomplete="off" readonly matInput [matDatepicker]="startpicker"
+            placeholder="Date" style="padding-bottom: 0 !important;">
+          <mat-datepicker-toggle matSuffix [for]="startpicker">
+            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #startpicker disabled="false"></mat-datepicker>
+          <mat-error>  
+              <span *ngIf="!form.get('eventStartDate').valid && form.get('eventStartDate').touched">date is required</span>  
+          </mat-error> 
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="5"></div>
+
+      <div fxFlex="30" fxLayout="column">
+        <label>End Date</label>
+        <mat-form-field [floatLabel]="'never'">
+          <input name="eventEndDate" formControlName="eventEndDate" autocomplete="off" readonly matInput [matDatepicker]="endpicker" 
+            placeholder="Date" style="padding-bottom: 0 !important;">
+          <mat-datepicker-toggle matSuffix [for]="endpicker">
+            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #endpicker disabled="false"></mat-datepicker>
+          <mat-error>  
+              <span *ngIf="!form.get('eventEndDate').valid && form.get('eventEndDate').touched">Date is required</span>  
+          </mat-error> 
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div fxFlex="10" style="margin:1%">
+      <span fxFlex="12" style="font-weight:bold; margin-top:1%">Add images</span>
+      <input id="upload" type="file" style="display:none" (change)="onFileChange($event)" onclick="this.value=null;" multiple 
+        name="imageData"  accept="image/x-png,image/gif,image/jpeg">
+      <button mat-raised-button style="background-color:#EEEFF1; border-radius: 5px;" (click)="openInput()" style="margin-right:5px">
+        <span fxLayout="row">
+          <img style="height:35px" [src]="uploadimage"> &nbsp;&nbsp; Choose a file...</span>
+      </button>
+      <mat-chip-list #chipList>
+        <mat-chip *ngFor="let image of imageobject" 
+                 [removable]="removable" (removed)="remove(image)">
+          {{image.imageName}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+      
+      </mat-chip-list>
+      <div *ngIf="onlyimagewarning != null">{{onlyimagewarning}}</div>
+      <div *ngIf="sizeexceedsfilename != null">{{sizeexceedsfilename}} exceeds size limit</div>
+     
+    </div>
+
+     <div fxFlex="60">
+    <div fxLayout="column">
+      <mat-form-field appearance="outline">
+        <textarea matInput name="eventHeading" formControlName="eventName" placeholder="Write heading here.." style="height:25px" ></textarea>
+        <mat-error>  
+            <span *ngIf="!form.get('eventName').valid && form.get('eventName').touched">Event Name is required</span>  
+        </mat-error> 
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <textarea matInput name="eventDescription" formControlName="eventDescription" placeholder="Write description here.." style="height:100px"></textarea>
+        <mat-error>  
+            <span *ngIf="!form.get('eventDescription').valid && form.get('eventDescription').touched">Event Description is required</span>  
+        </mat-error> 
+      </mat-form-field>
+    </div>
+  </div> 
+     <div fxFlex="10" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" style="margin-top: 18px;">
+      <button mat-raised-button class="submit" [disabled]=' !form.valid || form.value.eventName == " " || form.value.eventDescription == " " ' (click)="postUpdate();">Submit</button>
+      <button mat-raised-button class="cancel" (click)="onNoClick()">Cancel</button>
+    </div> 
+  </form>
+
+</div>
+
+

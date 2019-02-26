@@ -1,0 +1,59 @@
+.box {
+    border: 1px solid #ddd !important;
+}
+
+// mat-form-field{
+//     border: 1px solid #ddd !important;
+//    height: 44px;
+// }
+// .mat-form-field-appearance-legacy{
+// border-bottom: 1px solid white !important;
+// text-decoration: none !important;
+// }
+.headingbox {
+    height: 58px;
+    border: 1px solid #ddd;
+    border-radius: 9px;
+    padding: 6px;
+    font-size: 14px !important;
+}
+
+.descriptionbox {
+    margin-top: 10px;
+    height: 200px;
+    border: 1px solid #ddd;
+    border-radius: 9px;
+    padding: 6px;
+    font-size: 14px !important;
+}
+
+
+.mat-raised-button {
+    border-radius: 10px !important;
+}
+
+.datepicker {
+    width: 200px;
+    text-align: center;
+    height: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 14px !important;
+}
+
+.dropdown {
+    width: 150px;
+    height: 24px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    font-size: 14px !important;
+}
+
+.form {
+    padding: 20px
+}
+
+
+label {
+    font-weight:bold;
+}

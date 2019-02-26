@@ -1,0 +1,95 @@
+<!-- <div fxLayout="column" fxFlex style="background-color: white;border-radius:5px;background-image:url(assets/Intranet-Icons/bg22.png);"
+  *ngIf="!makeTotalDisplaynewsScreenVisible">
+  <div fxLayout="row" fxFlex>
+    <div fxLayout="column" fxFlex>
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutGap.xs="2px" fxLayoutAlign="end end" style="padding-bottom:10px;border-bottom:1px solid lavender;margin:10px">
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+        <div class="filterbox">
+            <mat-select placeholder="This Week" [(ngModel)]='filterObject' (selectionChange)="searchnews()">
+              <mat-option *ngFor="let i of timeFilterList" [value]="i">
+                {{i.source}}
+              </mat-option>
+            </mat-select>
+          </div>
+        </div>
+      </div>
+
+      <div fxFlex style="overflow:auto" fxLayout="column">
+        <perfect-scrollbar (psYReachEnd)="onScrollEvent($event)">
+          <div *ngFor="let i of industryNews;index as j" style="margin:7px">
+            <div fxLayout="row" style=" padding:10px;margin-bottom:10px;box-shadow: 0px 3px 5px 0px #d6d3d3;" [style.background-color]="i.color">
+              <div fxLayout="column" fxFlex="80">
+                <a href="{{i.url}}" target="_blank" style="text-decoration: none">
+                  <b class="gap">{{i.title}}</b>
+                </a>
+                <span (click)="displayCompleteData(i)" class="gap">{{i.description}}</span>
+
+              </div>
+              <div fxFlex="1"></div>
+              <div fxFlex="19" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end center" (click)="displayCompleteData(i)" style="cursor:pointer">
+           
+
+                <div fxFlex="35" fxLayout="column" fxLayoutGap="5px" fxLayoutAlign.xs="start start">
+                  <span style="font-size:13px; font-style: italic;">Posted On</span>
+                  <span style="font-style: italic; font-size: 13px;">Source</span>
+                </div>
+
+                <div fxFlex="75" fxLayout="column" fxLayoutGap="5px">
+                  <div fxLayout="row">
+                    <img [src]="'assets/Intranet-Icons/time.svg'" style="height:15px;margin-right: 5px;">
+                    <span style="font-size:13px; font-weight: bold">{{i.publishedAt | date:"MMM dd, yyyy"}}</span>
+                  </div>
+                  <span style="color: #363084;">
+                    <b style="font-size: 12px;color: #363084;">{{i.sourceName}}</b>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </perfect-scrollbar>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div fxLayout="column" fxFlex style="background-color: white;border-radius:5px;background-image:url(assets/Intranet-Icons/bg22.png);" *ngIf="makeTotalDisplaynewsScreenVisible">
+  <div fxFlex fxLayout="column" style="margin:10px;">
+
+
+    <div fxFlex="7" fxlayout="row" style="border-bottom:1px solid lavender;">
+      <span fxLayout="row" fxLayoutGap="5px" style="display:flex; cursor:pointer; padding: 10px" (click)="gobacktopost()">
+        <span class="mer-priority-high-filled" style="font-size:25px; transform: rotate(270deg); color: #5587ae"></span>
+        <span style="font-size: 16px; color: #5587ae; padding: 3px;">Back</span>
+      </span>
+
+    </div>
+
+    <div fxFlex="5" style="margin-top: 1%;">
+      <a href="{{totalObjectdata.url}}" target="_blank" style="text-decoration: none">
+        <span style="font-size:17px; font-weight: bold; opacity:0.9px; margin: 1%; text-decoration: underline;">{{totalObjectdata.title}}</span> &nbsp;&nbsp;&nbsp;
+      </a>
+    </div>
+
+    <div fxFlex="5">
+      <span style="margin-bottom:1%; font-size:14px;  margin: 1%" fxLayoutAlign="start center">by&nbsp;
+        <b style="color: #363084">{{totalObjectdata.author}}</b> &nbsp;&nbsp; on &nbsp;&nbsp;
+        <img [src]="'assets/Intranet-Icons/time.svg'" style="width:15px; height:15px;"> &nbsp;&nbsp;<b>{{totalObjectdata.publishedAt | date:"MMM dd, yyyy"}}</b>
+      </span>
+
+    </div>
+
+    <div style="margin:1%;border-radius: 5px; overflow:auto" fxFlex>
+      <perfect-scrollbar (psYReachEnd)="onScrollEvent($event)">
+        {{totalObjectdata.description}}
+      </perfect-scrollbar>
+    </div>
+  </div>
+</div> -->
+
+<div fxLayout="column" fxFlex style="background-color: white;border-radius:5px;background-image:url(assets/Intranet-Icons/bg22.png);">
+  <div fxLayout="row" fxFlex>
+    <div fxLayout="column" fxFlex fxLayoutAlign="center center">
+      <img [src]="'assets/Intranet-Icons/comin_soon.svg'" style="height:100px">
+    </div>
+  </div>
+</div>

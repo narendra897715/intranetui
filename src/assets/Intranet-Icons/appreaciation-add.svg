@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 35">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <g id="Group_658" data-name="Group 658" transform="translate(-1293 -98)">
+    <path id="Subtraction_3" data-name="Subtraction 3" class="cls-1" d="M1772.5,2332a17.5,17.5,0,1,1,12.375-5.125A17.385,17.385,0,0,1,1772.5,2332Zm-1.028-15.972v4.472h2.556v-4.472h4.472v-2.555h-4.472V2309h-2.556v4.473H1767v2.555Z" transform="translate(-462 -2199)"/>
+  </g>
+</svg>

@@ -1,0 +1,255 @@
+<div fxFlex fxLayout="column">
+  <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center" style="background-color:#edf0f3; height:55px;">
+    <span class="color-toolbar-header">Post the discussion</span>
+    <mat-icon (click)="onNoClick()" class="color" style="cursor: pointer">&#xE5CD;</mat-icon>
+  </mat-toolbar>
+
+  <form fxLayout="column" fxLayout.xs="column" (ngSubmit)="postUpdate(interactionForumDailogForm);" fxLayout.sm="column" fxLayout.md="column"
+    style="padding:20px;" #interactionForumDailogForm="ngForm">
+
+    <div fxFlex="10" fxLayout="row" fxLayoutAlign="space-between center" class="applyglobalclass">
+      <div fxFlex="30" fxLayout="column">
+        <label>Choose Category
+          <sup style="color:red">*</sup>
+        </label>
+        <div class="form-group">
+          <mat-form-field [floatLabel]="'never'">
+
+            <mat-select class="form-control" required id="categoryId" #categoryId="ngModel" name="categoryId" [(ngModel)]="interactionforumdailogobject.categoryId"
+              placeholder="Choose category">
+              <mat-option *ngFor="let cat of data_source" [value]="cat.categoryId" [innerText]="cat.categoryName">
+              </mat-option>
+            </mat-select>
+            
+            <!-- <mat-error *ngIf="categoryId.invalid">
+              <span style="font-size:11px;">*mandatory</span>
+            </mat-error> -->
+          </mat-form-field>
+        </div>
+
+      </div>
+
+
+
+      <div fxFlex="15" fxLayout="column">
+        <label>Start Date
+          <sup style="color:red">*</sup>
+        </label>
+        <mat-form-field [floatLabel]="'never'">
+          <input name="eventStartDate" (focus)="startpicker.open()" required [(ngModel)]="interactionforumdailogobject.eventStartDate"
+            [max]="interactionforumdailogobject.eventEndDate" autocomplete="off" readonly matInput [matDatepicker]="startpicker"
+            placeholder="Date" style="padding-bottom: 0 !important;">
+          <mat-datepicker-toggle matSuffix [for]="startpicker">
+
+          </mat-datepicker-toggle>
+          <mat-datepicker #startpicker></mat-datepicker>
+          <!-- <mat-error>  
+              <span *ngIf="!form.get('eventStartDate').valid && form.get('eventStartDate').touched">date is required</span>  
+          </mat-error>  -->
+        </mat-form-field>
+      </div>
+      <div fxFlex="15">
+          <label>Start Time</label>
+          <!-- <input name="someName" [(ngModel)]="selectedDate" [dpDayPicker]="datePickerConfig" />  -->
+          <mat-form-field [floatLabel]="'never'" style="width:100%" [ngClass]="interactionforumdailogobject.eventStartDate == null ? 'endtimeclassbeforeED' : 'endtimeclassbeforeSD' ">
+          <span >
+              <input matInput name="starttime" style="border: none;
+             width:88%;padding:0px" [(ngModel)]="eventStartTime" mode="time" placeholder="Time"  #STdateDirectivePicker="dpDayPicker" [dpDayPicker]="datePickerConfig" />  
+              <img [src]="'assets/Intranet-Icons/time.svg'" style="height:15px" (click)="openST()">
+
+          </span>
+         </mat-form-field>
+        
+  
+      </div>
+
+
+      <div fxFlex="15" fxLayout="column" *ngIf="interactionforumdailogobject.categoryId != 7">
+        <label>End Date</label>
+        <mat-form-field [floatLabel]="'never'">
+          <input name="eventEndDate" (focus)="endpicker.open()" [min]="interactionforumdailogobject.eventStartDate" [(ngModel)]="interactionforumdailogobject.eventEndDate"
+            autocomplete="off" readonly matInput [matDatepicker]="endpicker" placeholder="Date" style="padding-bottom: 0 !important;">
+          <mat-datepicker-toggle matSuffix [for]="endpicker">
+
+          </mat-datepicker-toggle>
+          <mat-datepicker #endpicker></mat-datepicker>
+          <!-- <mat-error>  
+              <span *ngIf="!form.get('eventEndDate').valid && form.get('eventEndDate').touched">Date is required</span>  
+          </mat-error>  -->
+        </mat-form-field>
+      </div>
+      <div fxFlex="15" *ngIf="interactionforumdailogobject.categoryId != 7">
+          <label>End Time</label>
+          <mat-form-field [floatLabel]="'never'" style="width:100%" [ngClass]="interactionforumdailogobject.eventEndDate == null ? 'endtimeclassbeforeED' : 'endtimeclassbeforeSD' ">
+          <span >
+              <input matInput name="endtime"  style="border: none;
+              width:88%;padding:0px" [(ngModel)]="eventEndTime" placeholder="Time" mode="time" #ETdateDirectivePicker="dpDayPicker" [dpDayPicker]="datePickerConfig" /> 
+              <img [src]="'assets/Intranet-Icons/time.svg'" style="height:15px" (click)="openET()">
+          </span>
+          </mat-form-field>
+  
+    
+      </div>
+
+      <div fxFlex="15" fxLayout="column" *ngIf="interactionforumdailogobject.categoryId == 7">
+        <label>End Date
+          <sup *ngIf="interactionforumdailogobject.categoryId == 7" style="color:red">*</sup>
+        </label>
+        <mat-form-field [floatLabel]="'never'">
+          <input name="eventEndDate" id="eventEndDate" #eventEndDate="ngModel" required (focus)="endpicker.open()" [min]="interactionforumdailogobject.eventStartDate"
+            [(ngModel)]="interactionforumdailogobject.eventEndDate" autocomplete="off" readonly matInput [matDatepicker]="endpicker"
+            placeholder="Date" style="padding-bottom: 0 !important;">
+          <mat-datepicker-toggle matSuffix [for]="endpicker">
+
+          </mat-datepicker-toggle>
+          <mat-datepicker #endpicker></mat-datepicker>
+          <mat-error *ngIf="eventEndDate.invalid">
+            <span style="font-size:11px;">*Mandatory</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+        <div fxFlex="15" *ngIf="interactionforumdailogobject.categoryId == 7">
+            <label>End Time
+                <sup  style="color:red">*</sup>
+            </label>
+            <mat-form-field [floatLabel]="'never'" style="width:100%" [ngClass]="interactionforumdailogobject.eventEndDate == null ? 'endtimeclassbeforeED' : 'endtimeclassbeforeSD' ">
+            <span >
+                <input matInput name="endtime" required style="border: none;
+               width:88%;padding:0px" [(ngModel)]="eventEndTime" placeholder="Time" mode="time" #ETdateDirectivePicker="dpDayPicker" [dpDayPicker]="datePickerConfig" />  
+                <img [src]="'assets/Intranet-Icons/time.svg'" style="height:15px" (click)="openET()">
+            </span>
+          </mat-form-field>
+    
+      
+        </div>
+    </div>
+
+    <div fxFlex="10" style="margin:1% 0" fxLayoutAlign="start center" class="applyglobalclass" *ngIf="showimageupload">
+      <span fxFlex="10">Add images</span>
+      <input id="upload" type="file" style="display:none" (change)="onFileChange($event)" onclick="this.value=null;" multiple name="imageData">
+      <div fxLayout="column">
+      <button mat-raised-button style="background-color:#EEEFF1; border-radius: 5px;text-align:center;padding:0px" (click)="openInput()" style="margin-right:5px">
+        <span fxLayout="row">
+          <img style="height:20px;padding:8px" [src]="'assets/Intranet-Icons/upload.svg'"> &nbsp;&nbsp; Choose images...</span>
+      </button>
+      <span style="font-size:12px">Upload an image(s) from your computer</span>
+    </div>
+    <!-- <span *ngIf="imageobject.length == 0" style="margin-left:10px; padding-bottom: 15px;">No file selected</span> -->
+      <mat-chip-list #chipList style="margin-bottom: 13px;">
+        <mat-chip *ngFor="let image of imageobject" [removable]="removable" (removed)="removeImageBeforePost(image)">
+          <span style="white-space: nowrap;
+            overflow: hidden !important;
+            text-overflow: ellipsis;
+            width: 100px;">{{image.imageName}}</span>
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+
+      </mat-chip-list>
+      <!-- <div *ngIf="onlyimagewarning != null">{{onlyimagewarning}}</div>
+      <div *ngIf="sizeexceedsfilename != null">{{sizeexceedsfilename}} exceeds size limit</div> -->
+    </div>
+
+    <div fxFlex fxLayout="column">
+    
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="applyglobalclass">
+            <textarea matInput class="form-control" maxlength="150" name="eventName" id="eventName" #eventName="ngModel" [(ngModel)]="interactionforumdailogobject.eventName"
+              required placeholder="Write heading here.." style="height:25px"></textarea>
+            <!-- <mat-error>  
+            <span *ngIf="!form.get('eventName').valid && form.get('eventName').touched">Event Name is required</span>  
+        </mat-error>  -->
+            <!-- <mat-error *ngIf="eventName.invalid">
+              <span style="font-size:11px; color: red">*Mandatory</span>
+            </mat-error> -->
+          </mat-form-field>
+        </div>
+        <div >
+         
+          
+            
+              <textarea [froalaEditor]   [(froalaModel)]="interactionforumdailogobject.eventDescription"></textarea>
+
+          
+      
+        </div>
+
+     
+        <div  *ngIf="interactionforumdailogobject.categoryId == 7" fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center" style="margin-top:10px" class="applyglobalclass">
+          <div fxFlex="10">
+            Add Options
+          </div>
+          
+
+          <div style="border:1px solid #d1d2d4;padding:10px;background-color: #EEEFF1;" class="applyglobalclass">
+
+            <input matInput name="optiondesc" maxlength="100" [(ngModel)]="optionDescription" (input)="checkForCommentDisabled(optionDescription)">
+
+         
+          </div>
+          <div class="applyglobalclass">
+            <img [src]="'assets/Intranet-Icons/add_circle.svg'" *ngIf="Options2.length < 8 && !hideUpdateButton" [ngClass]="disableCommentButton ? 'OptionAddButtonbefore' : 'OptionAddButtonafter'"
+              (click)="AddOption(optionDescription)">
+
+            <button mat-raised-button (click)="updatedOptionid(optionDescription)" [disabled]="disableCommentButton" *ngIf=hideUpdateButton>Update</button>
+            
+          </div>
+
+          <div class="applyglobalclass">
+            <mat-chip-list #chipList>
+              <mat-chip *ngFor="let i of Options2" [removable]="removable" (removed)="deleteoption(i)">
+                <span style="white-space: nowrap;
+                  overflow: hidden !important;
+                  text-overflow: ellipsis;
+                  width: 100px;">
+                  <a style=" text-decoration: underline;cursor:pointer" matTooltip="Update" matTooltipPosition="above" (click)="updateOption(i)">{{i.optionDescription}} </a>
+                </span>
+
+                <mat-icon matChipRemove *ngIf="i.optionId == null">cancel</mat-icon>
+              </mat-chip>
+
+            </mat-chip-list>
+          </div>
+
+         
+          <mat-error *ngIf="Options2.length < 2" class="applyglobalclass">
+            <small style="color: red; font-size:11px;">*Two options are mandatory</small>
+          </mat-error>
+        </div>
+     
+    </div>
+
+    <div fxFlex="30" fxLayout="column" class="applyglobalclass">
+    
+
+      <div fxFlex="5" style="font-weight: bold; color: #ee6642; margin-top: 1%">Note:</div>
+      <div fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-between center">
+        <div fxFlex>
+          <ol style="padding-left: 20px;">
+              <li>Make sure that you are not misusing the application or posting any sensible information violating the company’s
+                  Information Security Policy. </li>
+            <li>Make sure that the appropriate category is chosen while posting.</li>
+            <li>You can only edit but can’t delete the post once posted.</li>
+            <li>For Polling, you can’t edit or delete options once posted.</li>
+            
+            <li>Fill in all the required fields to post.</li>
+            <li>Send an email to      <a style="text-decoration: underline;color: blue;" href="mailto:appsupport@merilytics.com" target="_top" >appsupport@merilytics.com</a>
+              to get your post deleted.</li>
+            <li>App support team will remove your post if irrelevant content is posted.</li>
+          </ol>
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" style="padding-top: 5%">
+          <button mat-raised-button class="submit" *ngIf="interactionforumdailogobject.categoryId != 7" type="submit" [ngClass]="{'submit-inactive' : !interactionForumDailogForm.form.valid, 'submit-active' : interactionForumDailogForm.form.valid}"
+            [disabled]="!interactionForumDailogForm.form.valid">Submit</button>
+          <button mat-raised-button class="submit" *ngIf="interactionforumdailogobject.categoryId  == 7" type="submit" [ngClass]="{'submit-inactive' : !interactionForumDailogForm.form.valid || Options2.length < 2, 'submit-active' : interactionForumDailogForm.form.valid && Options2.length >= 2 }"
+            [disabled]="!interactionForumDailogForm.form.valid || Options2.length < 2">Submit</button>
+          <button mat-raised-button class="cancel" style="border: 1px solid #ef6d4b;" (click)="onNoClick()">Cancel</button>
+        
+
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+
+</div>

@@ -1,0 +1,251 @@
+<div fxFlex fxLayout="column" class="scrollcontent" style="overflow:auto" >
+
+    <div fxFlex="5" fxFlex.xs="3" fxLayout="row" style="margin-top:1%;margin-left: 1%">
+        <div fxFlex="100" fxLayout="row">
+            <div fxFlex="50" fxLayoutAlign="start center">
+                <div fxLayoutAlign="space-around center" *ngFor="let list of submenu" routerLink='{{list.categoryURL}}' class="tabinactive"
+                    routerLinkActive="tabactive" (click)="redirect(list.categoryURL,list.categoryName,list.serviceURL)" fxHide.xs='true'>
+                    {{list.categoryName}}<sup *ngIf="list.isNew" style="color: red; font-size: 10px; padding-bottom: 16px">New!</sup>
+                </div>
+            </div>
+            <div fxFlex="45"></div>
+            <div fxFlex="5" fxlayoutAlign="start center">
+                <span fxLayoutAlign="start center">
+                    <span style="cursor: pointer"  *ngIf="sidePaneHide" (click)="sidePaneHide = !sidePaneHide; calendar()">
+                        <img [matTooltip]="'Hide Calendar/Birthdays/Anniversaries'" matTooltipPosition="above" [src]="'assets/Intranet-Icons/hide_cal.svg'" style="height: 40px">
+                    </span>
+                    <span style="cursor: pointer" *ngIf="!sidePaneHide" (click)="sidePaneHide = !sidePaneHide; calendar()">
+                        <img [matTooltip]="'Show Calendar/Birthdays/Anniversaries'" matTooltipPosition="above" [src]="'assets/Intranet-Icons/show_cal.svg'" style="height: 40px">
+                    </span>
+                </span>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" fxHide.sm='true' fxHide.xl='true' fxHide.md='true' fxHide.lg='true' fxFlex.xs>
+            <div fxFlex="10" fxLayoutAlign="center center">
+                <i class="fa fa-bars" aria-hidden="true" (click)="opensidnav()"></i>
+            </div>
+            <div fxFlex="90" fxLayoutAlign="center center">{{catergoryname}}</div>
+
+        </div>
+
+    </div>
+
+    <div fxFlex fxLayout="row" style="margin:0 1% 1% 1%" fxLayout.md="column" fxLayout.sm="column" fxLayout.xs="column">
+        <div fxFlex fxLayout="column" style="background-color:white; border-radius:8px; margin-right:8px;" class="eventssection" fxFlex.sm="50"
+            fxFlex.md="50">
+            <div class="sidenav" [style.width]="sidenavwidth" fxLayout="column">
+                <div fxLayoutAlign="end end">
+                    <mat-icon (click)="closeNav()" class="color" style="cursor: pointer" fxLayoutAlign="end end">&#xE5CD;</mat-icon>
+                </div>
+                <mat-nav-list>
+                    <a mat-list-item routerLink="." *ngFor="let list of submenu" style="color:#111" (click)="redirect(list.categoryURL,list.categoryName)">{{list.categoryName}}</a>
+                </mat-nav-list>
+            </div>
+            <router-outlet></router-outlet>
+        </div>
+
+        <div fxFlex="25" *ngIf="sidePaneHide"  fxLayout="column" fxLayout.md="row" fxLayout.sm="column" fxLayout.xs="column" fxFlex.sm="50"
+            fxFlex.md="50" fxFlex.xs="50">
+            <div fxFlex="50" fxLayout="column" class="calendar123" style="background: #efefef">
+                <div fxFlex fxLayout="row">
+                    <div fxFlex fxLayout="column" style="overflow:auto; border-radius:10px">
+                        <div fxFlex="15">
+                            <app-calendar-header (viewDateChange)="dateChange($event)"></app-calendar-header>
+                        </div>
+                        <ng-template #customCellTemplate let-day="day" let-locale="locale">
+                            <div class="cal-cell-top" *ngFor="let event of day.events" [mwlCalendarTooltip]="event.holidayName  ? event.holidayName  : event.title"
+                                [tooltipPlacement]="'bottom'">
+                                <span class="cal-day-badge">{{ day.badgeTotal }}</span>
+                                <span class="cal-day-number events-style" *ngIf="event.title != null && !event.holiday" [innerHtml]="(day.date | calendarDate:'monthViewDayNumber':locale).length == 1 ? (&nbsp;+(day.date | calendarDate:'monthViewDayNumber':locale)) : (day.date | calendarDate:'monthViewDayNumber':locale)"></span>
+                                <span class="cal-day-number" *ngIf="event.title == null && !event.holiday">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+                                <span class="cal-day-number holidays" *ngIf="event.holiday">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+                            </div>
+                        </ng-template>
+                        <div fxFlex="73" style="background: white;">
+                            <mwl-calendar-month-view [viewDate]="viewDate" [events]="events" eventWidth="250" [cellTemplate]="customCellTemplate"></mwl-calendar-month-view>
+                        </div>
+                        <div fxLayoutAlign="space-around center" fxFlex="7" style="margin-top: 5px;">
+                            <div fxLayout="row">
+                                <span class="today"></span>
+                                <span style="font-size: 12px;">Today</span>
+                            </div>
+                            <div fxLayout="row">
+                                <span class="holiday"></span>
+                                <span style="font-size: 12px;">Holiday</span>
+                            </div>
+                            <div fxLayout="row">
+                                <span class="event"></span>
+                                <span style="font-size: 12px;">Event</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div fxFlex="1">
+            </div>
+            <div fxFlex="50" fxLayout="column" style="background-color: white;border-radius:10px" class="calendar123">
+                <div fxLayout="column" fxFlex>
+                    <div fxLayout="row" fxFlex="12" fxLayoutAlign="space-between" style="background-color: #efefef">
+                        <div fxLayoutAlign="center center" fxFlex style="cursor:pointer" (click)="upcomingHighlightstab()" [class.highlighttabactive]="makeupcomingtab==true"
+                            [class.highlighttabinactive]="makeupcomingtab==false">Upcoming</div>
+                        <div fxLayoutAlign="center center" fxFlex style="cursor:pointer" (click)="todayHighlightstab()" [class.highlighttabactive]="maketodaytab==true"
+                            [class.highlighttabinactive]="maketodaytab==false">Today</div>
+                        <div fxLayoutAlign="center center" fxFlex style="cursor:pointer" (click)="pastHighlightstab()" [class.highlighttabactive]="makepasttab==true"
+                            [class.highlighttabinactive]="makepasttab==false">Past</div>
+                    </div>
+                    <div fxFlex style="overflow:auto;margin:5px" *ngIf="makeupcomingtab==true">
+                        <perfect-scrollbar *ngIf="upcomingHighlights.length !== 0">
+
+
+                            <div *ngFor="let list of upcomingHighlights" style="margin:1%;">
+                                <div fxLayoutAlign="space-between center" style="border-bottom: 1px solid
+                                    #e8e8e8;padding:2%">
+                                    <div fxFlex="10" style="padding:5px;background-color:#f4f4f4;border-radius:5px;margin-right:5px">
+                                        <img [src]="'assets/Intranet-Icons/user.svg'" class="profile-img">
+                                    </div>
+
+                                    <div fxFlex="60" fxLayout="column" fxLayoutAlign="end start" class="info">
+                                        <div style="width:100%">
+                                            <span fxFlex style="white-space: nowrap; overflow: hidden !important; text-overflow: ellipsis;color: #4C4C4C;cursor: pointer;font-weight:bold"
+                                                matTooltip="{{list.employeeName}}" [matTooltipPosition]="'above'" [mdePopoverTriggerFor]="appPopover"
+                                                mdePopoverTriggerOn="hover">{{list.employeeName}}</span>
+
+                                            <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" mdePopoverPositionY="below">
+                                                <mat-card style="max-width: 180px;padding: 10px !important">
+                                                    <mat-card-content>
+                                                        <img [src]="'assets/Intranet-Icons/user.svg'" (click)="gotoEmployeePage(list.employeeId)" style="width:15px; height:15px; margin-right:8px;cursor: pointer;">
+                                                        <a href="{{list.mail}}">
+                                                            <img [src]="'assets/Intranet-Icons/outlook.svg'" style="width:15px; height:15px; margin-right:8px">
+                                                        </a>
+                                                        <a [href]="sanitize(list.skype)">
+                                                            <img [src]="'assets/Intranet-Icons/skype.svg'" style="width:15px; height:15px;">
+                                                        </a>
+                                                    </mat-card-content>
+                                                </mat-card>
+                                            </mde-popover>
+                                        </div>
+                                        <div *ngIf="list.yearsOfExperience == null" fxFlex>
+                                            <span class="eventsboxspan">{{list.date | date:"MMM dd"}}</span>
+                                        </div>
+                                        <div *ngIf="list.yearsOfExperience != null" fxFlex>
+                                            <span class="eventsboxspan" *ngIf="list.yearsOfExperience == 1">Celebrating {{list.yearsOfExperience}} year on {{list.date | date:"MMM dd"}}</span>
+                                            <span class="eventsboxspan" *ngIf="list.yearsOfExperience > 1">Celebrating {{list.yearsOfExperience}} years on {{list.date | date:"MMM dd"}}</span>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center">
+                                        <img *ngIf="list.yearsOfExperience == null" [src]="'assets/Intranet-Icons/cake.svg'" class="profile-img-cake">
+                                        <img *ngIf="list.yearsOfExperience != null" [src]="'assets/Intranet-Icons/workanniversary.svg'" class="profile-img-anniversary">
+                                        <!-- <button class="sendWishes" (click)="send_wishes(list); openSnackBar()">Send wishes</button> -->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </perfect-scrollbar>
+                        <div *ngIf="upcomingHighlights.length === 0" fxLayoutAlign="center center" style="height:100%">
+                            <img [src]="'assets/Intranet-Icons/noEventsAvailable.svg'" style="height:100px">
+                        </div>
+                    </div>
+                    <div fxFlex style="overflow:auto;margin:5px" *ngIf="maketodaytab==true">
+                        <perfect-scrollbar *ngIf="todayHighlights.length !== 0">
+
+                            <div *ngFor="let list of todayHighlights" style="margin:1%;">
+                                <div fxLayoutAlign="space-between center" style="border-bottom: 1px solid
+                                    #e8e8e8;padding:2%">
+                                    <div fxFlex="10" style="padding:5px;background-color:#f4f4f4;border-radius:5px;margin-right:5px">
+                                        <img [src]="'assets/Intranet-Icons/user.svg'" class="profile-img">
+                                    </div>
+                                    <div fxFlex="60" fxLayout="column" fxLayoutAlign="end start" class="info">
+                                        <div style="width:100%">
+                                            <span fxFlex style="white-space: nowrap; overflow: hidden !important; text-overflow: ellipsis;cursor:pointer;font-weight:bold" matTooltip="{{list.employeeName}}"
+                                                [matTooltipPosition]="'above'" [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover">{{list.employeeName}}</span>
+                                            <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" mdePopoverPositionY="below">
+                                                <mat-card style="max-width: 180px;padding: 10px !important">
+                                                    <mat-card-content>
+                                                        <img [src]="'assets/Intranet-Icons/user.svg'" (click)="gotoEmployeePage(list.employeeId)" style="width:15px; height:15px; margin-right:8px;cursor: pointer;">
+                                                        <a href="{{list.mail}}">
+                                                            <img [src]="'assets/Intranet-Icons/outlook.svg'" style="width:15px; height:15px; margin-right:8px">
+                                                        </a>
+                                                        <a [href]="sanitize(list.skype)">
+                                                            <img [src]="'assets/Intranet-Icons/skype.svg'" style="width:15px; height:15px;">
+                                                        </a>
+                                                    </mat-card-content>
+                                                </mat-card>
+                                            </mde-popover>
+                                        </div>
+                                        <div *ngIf="list.yearsOfExperience == null" fxFlex>
+                                            <span class="eventsboxspan">{{list.date | date:"MMM dd"}}</span>
+                                        </div>
+                                        <div *ngIf="list.yearsOfExperience != null" fxFlex>
+                                            <span class="eventsboxspan" *ngIf="list.yearsOfExperience == 1">Celebrating {{list.yearsOfExperience}} year on {{list.date | date:"MMM dd"}}</span>
+                                            <span class="eventsboxspan" *ngIf="list.yearsOfExperience > 1">Celebrating {{list.yearsOfExperience}} years on {{list.date | date:"MMM dd"}}</span>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center">
+                                        <img *ngIf="list.yearsOfExperience == null" [src]="'assets/Intranet-Icons/cake.svg'" class="profile-img-cake">
+                                        <img *ngIf="list.yearsOfExperience != null" [src]="'assets/Intranet-Icons/workanniversary.svg'" class="profile-img-anniversary">
+                                        <button class="sendWishes" (click)="send_wishes(list); openSnackBar()">Send wishes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </perfect-scrollbar>
+                        <div *ngIf="todayHighlights.length === 0" fxLayoutAlign="center center" style="height:100%">
+                            <img [src]="'assets/Intranet-Icons/noEventsAvailable.svg'" style="height:100px">
+                        </div>
+                    </div>
+                    <div fxFlex style="overflow:auto;margin:5px" *ngIf="makepasttab==true">
+                        <perfect-scrollbar *ngIf="previousHighlights.length !== 0">
+
+                            <div *ngFor="let list of previousHighlights" style="margin:1%;">
+                                <div fxLayoutAlign="space-between center" style="border-bottom: 1px solid
+                                            #e8e8e8;padding:2%">
+                                    <div fxFlex="10" style="padding:5px;background-color:#f4f4f4;border-radius:5px;margin-right:5px">
+                                        <img [src]="'assets/Intranet-Icons/user.svg'" class="profile-img">
+                                    </div>
+
+                                    <div fxFlex="60" fxLayout="column" fxLayoutAlign="end start" class="info">
+                                        <div style="width:100%">
+                                            <span fxFlex style="white-space: nowrap; overflow: hidden !important; text-overflow: ellipsis;cursor:pointer;font-weight:bold" matTooltip="{{list.employeeName}}"
+                                                [matTooltipPosition]="'above'" [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover">{{list.employeeName}}</span>
+
+                                            <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" mdePopoverPositionY="below">
+                                                <mat-card style="max-width: 180px;padding: 10px !important">
+                                                    <mat-card-content>
+                                                        <img [src]="'assets/Intranet-Icons/user.svg'" (click)="gotoEmployeePage(list.employeeId)" style="width:15px; height:15px; margin-right:8px;cursor: pointer;">
+                                                        <a href="{{list.mail}}">
+                                                            <img [src]="'assets/Intranet-Icons/outlook.svg'" style="width:15px; height:15px; margin-right:8px">
+                                                        </a>
+                                                        <a [href]="sanitize(list.skype)">
+                                                            <img [src]="'assets/Intranet-Icons/skype.svg'" style="width:15px; height:15px;">
+                                                        </a>
+                                                    </mat-card-content>
+                                                </mat-card>
+                                            </mde-popover>
+                                        </div>
+                                        <div *ngIf="list.yearsOfExperience == null" fxFlex>
+                                            <span class="eventsboxspan">{{list.date | date:"MMM dd"}}</span>
+                                        </div>
+                                        <div *ngIf="list.yearsOfExperience != null" fxFlex>
+                                            <span class="eventsboxspan" *ngIf="list.yearsOfExperience == 1">Celebrated {{list.yearsOfExperience}} year on {{list.date | date:"MMM dd"}}</span>
+                                            <span class="eventsboxspan" *ngIf="list.yearsOfExperience > 1">Celebrated {{list.yearsOfExperience}} years on {{list.date | date:"MMM dd"}}</span>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center">
+                                        <img *ngIf="list.yearsOfExperience == null" [src]="'assets/Intranet-Icons/cake.svg'" class="profile-img-cake">
+                                        <img *ngIf="list.yearsOfExperience != null" [src]="'assets/Intranet-Icons/workanniversary.svg'" class="profile-img-anniversary">
+                                        <!-- <button class="sendWishes" (click)="send_wishes(list); openSnackBar()">Send wishes</button> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </perfect-scrollbar>
+                        <div *ngIf="previousHighlights.length === 0" fxLayoutAlign="center center" style="height:100%">
+                            <img [src]="'assets/Intranet-Icons/noEventsAvailable.svg'" style="height:100px">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

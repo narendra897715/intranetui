@@ -1,0 +1,79 @@
+<h1 mat-dialog-title>Edit</h1>
+<div mat-dialog-content>
+        <form fxLayout="column" fxLayout.xs="column" fxLayout.sm="column" fxLayout.md="column"  style="padding:20px;">
+  
+                <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+                  <div fxFlex="30" fxLayout="column">
+                    <label>Posting Category</label>
+                    <mat-form-field>
+                            <mat-label>Events</mat-label>
+                            <mat-select [(ngModel)]="postupdate.categoryId" name="categoryId" placeholder="category">
+                              <mat-option *ngFor="let cat of submenu" [value]="cat.categoryId" [innerText]="cat.categoryName">
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                  </div>
+            
+                  <div fxFlex="5"></div>
+            
+                  <div fxFlex="30" fxLayout="column">
+                    <label>Start Date</label>
+                    <mat-form-field [floatLabel]="'never'">
+                      <input name="eventStartDate" autocomplete="off"  readonly matInput [matDatepicker]="startpicker" [(ngModel)]="postupdate.eventStartDate"
+                        placeholder="Date" style="padding-bottom: 0 !important;">
+                      <mat-datepicker-toggle matSuffix [for]="startpicker">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                      </mat-datepicker-toggle>
+                      <mat-datepicker #startpicker disabled="false"></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+            
+                  <div fxFlex="5"></div>
+            
+                  <div fxFlex="30" fxLayout="column">
+                    <label>End Date</label>
+                    <mat-form-field [floatLabel]="'never'">
+                      <input name="eventEndDate" autocomplete="off"  readonly matInput [matDatepicker]="endpicker" [(ngModel)]="postupdate.eventEndDate"
+                        placeholder="Date" style="padding-bottom: 0 !important;">
+                      <mat-datepicker-toggle matSuffix [for]="endpicker">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                      </mat-datepicker-toggle>
+                      <mat-datepicker #endpicker disabled="false"></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                </div>
+            
+                <!-- <div fxFlex="50" style="margin-top: 20px; margin-bottom: 20px">
+                  <span fxFlex="20">Add images</span>
+                  <div fxFlex="80" fxLayoutAlign="start start">
+                    <div fxLayout="column" fxLayoutAlign="center center">
+                      <input type="file" accept="image/*" (change)="changeListner($event)" style="display: none; border:1px solid grey" #picture>
+                      <div class="circleImage" [ngStyle]="{ 'background-image' : 'url('+pictureBase+')'}" (click)="picture.click()" fxLayout="column"
+                        fxLayoutAlign="center center">
+                        <div fxFlex fxLayout="row" fxLayoutAlign="center center">
+                          <img [src]="'assets/Intranet-Icons/upload.svg'" style="width:20px; height:20px;">
+                          <div style="text-align: center" [ngClass]="{'visible' : pictureBase}">Upload picture</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+               
+                
+                <div fxLayout="column">
+                  <mat-form-field appearance="outline">
+                    <textarea matInput name="eventHeading" placeholder="Write heading here.." style="height:30px" [(ngModel)]="postupdate.eventName"></textarea>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <textarea matInput name="eventDescription" placeholder="Write description here.." style="height:60px" [(ngModel)]="postupdate.eventDescription"></textarea>
+                  </mat-form-field>
+                </div>
+            
+                <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center" style="margin-top: 18px;">
+                        <button class="submit" (click)="postUpdate(postupdate);">Submit</button>
+                        <button class="cancel" (click)="onNoClick()">Cancel</button>
+                
+                </div>
+              </form>
+            
+</div>

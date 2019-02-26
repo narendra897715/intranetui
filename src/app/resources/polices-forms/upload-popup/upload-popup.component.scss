@@ -1,0 +1,20 @@
+.mat-chip-list-wrapper {
+    display: inline !important;
+    margin: 0 !important;
+}
+
+.submit-active {
+    height: 36px;
+    background: linear-gradient(to bottom, rgba(92, 205, 146, 1) 0%, rgba(98, 176, 177, 1) 100%) !important;
+}
+
+.submit-inactive {
+    background: #e0e0e0 !important;
+}
+* {
+  
+    font-family: 'Lato';
+    outline: 0;
+    font-size: 14px;
+    color: #444444;
+}

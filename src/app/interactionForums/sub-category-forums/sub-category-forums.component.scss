@@ -1,0 +1,143 @@
+.listing-comments {
+    border-radius: 2px;
+    position: relative;
+}
+
+// :not(:first-child) {
+//  margin-top: 10px }
+.comment-box {
+    font-size: 0;
+}
+
+.name-text {
+    font-size: 14px;
+    font-weight: 800;
+    display: inline-block;
+    color: #9a3
+}
+
+.user-img {
+    border-radius: 50%;
+    margin-top: 1%;
+    height: 40px !important;
+    width: 40px !important;
+}
+
+.profile-img-yes-no {
+    border-radius: 50%;
+    margin-top: 1%;
+    height: 25px !important;
+    width: 25px !important;
+}
+
+.add-comment {
+    height: 30px;
+    color: white;
+    background-color: #9a3;
+    border-radius: 10px;
+    margin: 30px 20px;
+    font-weight: bold;
+}
+
+.eventname-class {
+    font-size: 17px;
+    font-weight: bold;
+    opacity: 0.9px;
+    margin-bottom: 1%;
+}
+
+.profile-img {
+    border-radius: 50%;
+    height: 45px !important;
+    width: 45px !important; // min-width: 100px !important;
+    //  margin-right: 5px;
+}
+
+.dot {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+table {
+    width: 100%;
+}
+
+th.mat-sort-header-sorted {
+    color: black;
+}
+
+.example-radio-group {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.example-radio-button {
+    //margin: 5px;
+    display: block; 
+    padding: 10px;
+    margin-bottom:10px;
+    border-radius:13px; 
+    box-shadow: 1px 1px #888888;
+    
+}
+
+.example-selected-value {
+    margin: 15px 0;
+}
+
+.disable_suggest_button{
+    color: black;
+    background-color: #e0e0e0; 
+    border: none;
+    border-radius: 15px;
+}
+.enable_suggest_button {
+    color: white;
+    background-color: #99b230; 
+    border: none;
+    border-radius: 15px;
+}
+.searchbox {
+    padding: 10px;
+    border-radius: 10px;
+    width: 110px;
+    font-size: 14px !important;
+    width: 210px;
+    background-color: #ebebeb;
+}
+.updatebox {
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    width: 110px;
+    font-size: 14px !important;
+    background-image: linear-gradient(#ffbd6d, #ff917b);
+    color: black;
+    cursor: pointer;
+}
+.mat-form-field-wrapper{
+    padding-bottom: 0px !important;
+  }
+  .poll-design > .mat-radio-label > .mat-radio-container > .mat-radio-button.mat-accent.mat-radio-inner-circle {
+
+    background-color: #5ebf9f !important;
+
+}
+
+#mat-radio-26 > label > div >  .mat-radio-outer-circle {
+
+    border-color: #5ebf9f !important;
+    background-color: white !important;
+}
+.blueRadioButton.mat-radio-button.mat-accent .mat-radio-inner-circle{
+    background-color: #5ebf9f !important;
+}
+* {
+  
+    font-family: 'Lato';
+    outline: 0;
+    font-size: 14px;
+    color: #444444;
+}

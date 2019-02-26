@@ -1,0 +1,209 @@
+<div fxLayout="column" fxFlex style="background-color: white;border-radius:5px;background-image:url(assets/Intranet-Icons/bg22.png);"
+  >
+  <div fxLayout="row" fxFlex>
+    <div fxLayout="column" fxFlex>
+      <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap.xs="2px" style="padding:10px;border-bottom:1px solid lavender">
+        <div fxLayoutAlign="center center" class="searchbox">
+          <input aria-label="search" placeholder="Search" (keyup)="searchNewJoinees()" [(ngModel)]="joinees.search" type="search" style="border:none;background-color: #ebebeb;">
+          <img [src]="'assets/Intranet-Icons/search.svg'" width="18" height="18" (click)="searchNewJoinees()">
+        </div>
+        <!-- <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+          <span class="funnel">
+            <img [src]="'./assets/Intranet-Icons/filter.svg'" width="18" height="18">
+          </span>
+          <div class="filterbox">
+            <mat-select [(ngModel)]="joinees.filterId" (selectionChange)="searchNewJoinees()" placeholder="This Week">
+              <mat-option *ngFor="let i of timeFilterList" [value]="i.newsAndUpdatesFilterId">  (keyup.enter)='searchNewJoinees()'
+                {{i.filter}}
+              </mat-option>
+            </mat-select>
+          </div>
+        </div> -->
+      </div>
+
+      <div fxFlex fxLayout="column" style="overflow:auto;position:relative" *ngIf="!noDataAvailableInNewJoinee" class="appreciation">
+        <!-- <a href="#" id="scroll" (click)="gotoupbutton123()" *ngIf="showgotoupbuttonInNJ"><span></span></a> -->
+        <perfect-scrollbar (psYReachEnd)="onScrollEvent($event)">
+          <div *ngFor="let i of newjoinee" style="margin-right:2%">
+            <div fxFlex fxLayout="row" style="background-color:#f1f1f1;margin-top:10px;padding:10px;border-radius:5px; border: 1px solid lavender">
+              <div fxFlex="25">
+                <div fxFlex fxLayout="column">
+                  <span fxFlex="33" style="font-size: 15px; padding: 10px">
+                    <span [mdePopoverTriggerFor]="appPopover" style="cursor:pointer" mdePopoverTriggerOn="hover">{{i.employeeName}}</span>
+                  </span>
+                  <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false">
+                    <mat-card style="max-width: 180px; padding: 10px !important">
+                      <mat-card-content>
+                        <img [src]="'assets/Intranet-Icons/user.svg'" (click)="gotoEmployeePage(i.employeeId)" style="width:15px; height:15px; margin-right:8px; cursor: pointer">
+                        <a href="{{i.mail}}">
+                          <img [src]="'assets/Intranet-Icons/outlook.svg'" style="width:15px; height:15px; margin-right:8px">
+                        </a>
+                        <a [href]="sanitize(i.skype)">
+                          <img [src]="'assets/Intranet-Icons/skype.svg'" style="width:15px; height:15px;">
+                        </a>
+                      </mat-card-content>
+                    </mat-card>
+                  </mde-popover>
+                  <div fxFlex="33" style="padding: 10px">
+                    <span class="texttile">{{i.designation}}</span>
+                  </div>
+                  <div fxFlex="33" style="padding: 10px" fxLayoutAlign="start center" fxLayoutGap="5px">
+                    <span>Joined On</span>
+                    <img [src]="'assets/Intranet-Icons/time.svg'" style="width:15px; height:15px;">
+                    <span style="font-weight: bold">{{i.dateOfJoining | date:"MMM dd, yyyy"}}</span>
+                  </div>
+                </div>
+              </div>
+              <div fxFlex="45">
+                <div fxFlex fxLayout="column">
+                  <!-- <div fxFlex="50" style="margin: auto">
+                    A
+                  </div>
+                  <div fxFlex="50"  style="margin: auto">
+                    A
+                  </div> -->
+                  <div fxFlex="50" style="text-align: center">
+                    <span fxFlex="32" fxLayoutAlign="start center" style="color:#363084;">Reporting Manager: </span>
+                    <span fxFlex="68" fxLayoutAlign="start center" style="color: black;">{{i.reportingManager}}</span>
+                  </div>
+                  <div fxFlex="50" style="text-align: center">
+                    <span fxFlex="32" fxLayoutAlign="start center" style="color:#363084">Employment Status: </span>
+                    <span fxFlex="68" fxLayoutAlign="start center" style="color: black">{{i.employementStatus}}</span>
+                  </div>
+                </div>
+              </div>
+              <div fxFlex="30">
+                <div fxFlex fxLayout="column">
+                  <div fxFlex="50" style="text-align: center">
+                    <span fxFlex="35" fxLayoutAlign="start center" style="color:#363084">Domain: </span>
+                    <span fxFlex="65" fxLayoutAlign="start center" style="color: black">{{i.domain}}</span>
+                  </div>
+                  <div fxFlex="50" style="text-align: center">
+                    <span fxFlex="35" fxLayoutAlign="start center" style="color:#363084">Work Location: </span>
+                    <span fxFlex="65" fxLayoutAlign="start center" style="color: black">{{i.workLocation}}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div fxLayoutAlign="space-between center" style="margin-bottom:20px">
+                <span fxFlex="33" style="cursor: pointer; font-size: 15px" [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover">{{i.employeeName}}
+                </span>
+                <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false">
+                  <mat-card style="max-width: 200px; height: 10px !important">
+                    <mat-card-content>
+                      <img [src]="'assets/Intranet-Icons/user.svg'" (click)="gotoEmployeePage(i.employeeId)" style="width:15px; height:15px; margin-right:8px; cursor: pointer">
+                      <a href="{{i.mail}}">
+                        <img [src]="'assets/Intranet-Icons/outlook.svg'" style="width:15px; height:15px; margin-right:8px">
+                      </a>
+                      <a [href]="sanitize(i.skype)">
+                        <img [src]="'assets/Intranet-Icons/skype.svg'" style="width:15px; height:15px;">
+                      </a>
+                    </mat-card-content>
+                  </mat-card>
+                </mde-popover>
+                <div fxFlex="33"> -->
+              <!-- <span style="color:#363084" fxFlex>Father name: </span>
+                  <span fxFlex style="color: black">{{i.fatherName}}</span> -->
+              <!-- <span style="color:#363084" fxFlex>Reporting Manager: </span>
+                  <span fxFlex style="color: black">{{i.reportingManager}}</span>
+                </div>
+                <div fxFlex="33">
+                  <span style="color:#363084" fxFlex>Employment Status: </span>
+                  <span fxFlex style="color: black">{{i.employementStatus}}</span>
+                </div>
+              </div> -->
+              <!-- <div fxLayoutAlign="space-between center" style="margin-bottom:20px">
+                <div fxFlex="33">
+                  <span class="texttile">{{i.designation}}</span>
+                </div>
+                <div fxFlex="33"> -->
+              <!-- <span style="color:#363084" fxFlex>Gender: </span>
+                  <span fxFlex style="color: black">{{i.gender}}</span> -->
+              <!-- <span style="color:#363084" fxFlex>Work Location: </span>
+                  <span fxFlex style="color: black">{{i.workLocation}}</span>
+                </div>
+                <div fxFlex="33">
+                  <span style="color:#363084" fxFlex>Domain: </span>
+                  <span fxFlex style="color: black">{{i.domain}}</span>
+                </div>
+              </div> -->
+              <!-- <div fxLayoutAlign="space-between start">
+                <div fxFlex="33" fxLayoutAlign="start center" fxLayoutGap="5px">
+                  <span>Joined On</span>
+                  <img [src]="'assets/Intranet-Icons/time.svg'" style="width:15px; height:15px;">
+                  <span style="font-weight: bold">{{i.dateOfJoining | date:"MMM dd, yy"}}</span>
+                </div> -->
+              <!-- <div fxFlex="33">
+                  <span style="color:#363084" fxFlex>Reporting Manager: </span>
+                  <span fxFlex style="color: black">{{i.reportingManager}}</span>
+                </div> -->
+              <!-- <div fxFlex="33"> -->
+              <!-- <span style="color:#363084" fxFlex>Work Location: </span>
+                  <span fxFlex style="color: black">{{i.workLocation}}</span> -->
+              <!-- </div> -->
+              <!-- </div> -->
+            </div>
+            <!-- <div class="gap">
+                <b style="cursor:pointer">
+                  <span style="color: #363084" [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover">{{i.EmployeeName}}
+                  </span>
+                  <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false">
+                    <mat-card style="max-width: 200px; height: 10px !important">
+                      <mat-card-content>
+                        <img [src]="'assets/Intranet-Icons/user.svg'" (click)="gotoEmployeePage(i.createdBy)" style="width:15px; height:15px; margin-right:8px">
+                        <a href="{{i.mail}}">
+                          <img [src]="'assets/Intranet-Icons/outlook.svg'" style="width:15px; height:15px; margin-right:8px">
+                        </a>
+                        <a [href]="sanitize(i.skype)">
+                          <img [src]="'assets/Intranet-Icons/skype.svg'" style="width:15px; height:15px;">
+                        </a>
+                      </mat-card-content>
+                    </mat-card>
+                  </mde-popover>
+                </b>
+              </div>
+              <div class="gap">
+                <span style="margin-left: 5px;">
+                  <span class="texttile">{{i.designation}}</span> joined on &nbsp;&nbsp;
+                  <img [src]="'assets/Intranet-Icons/clock.svg'" style="width:15px; height:15px;"> &nbsp;&nbsp;{{i.dateOfJoining | date}}
+                </span>
+              </div>
+              <div fxLayout="row wrap" class="gap">
+                <div fxFlex="33">
+                  <span fxFlex="40" style="color:#363084">Fathers name: </span>
+                  <span fxFlex="50" class="detailstile">{{i.fatherName}}</span>
+                </div>
+                <div fxFlex="33">
+                  <span fxFlex="40" style="color:#363084">Employee ID: </span>
+                  <span fxFlex="50" class="detailstile">{{i.employeeId}}</span>
+                </div>
+                <div fxFlex="33">
+                  <span fxFlex="40" style="color:#363084">Employment Status: </span>
+                  <span fxFlex="50" class="detailstile">{{i.employementStatus}}</span>
+                </div>
+              </div>
+              <div fxLayout="row wrap" class="gap">
+                <div fxFlex="33">
+                  <span fxFlex="40" style="color:#363084">Reporting Manager: </span>
+                  <span fxFlex="50" class="detailstile">{{i.reportingManager}}</span>
+                </div>
+                <div fxFlex="33">
+                  <span fxFlex="40" style="color:#363084">Domain: </span>
+                  <span fxFlex="50" class="detailstile">{{i.domain}}</span>
+                </div>
+                <div fxFlex="33">
+                  <span fxFlex="40" style="color:#363084">Work Location: </span>
+                  <span fxFlex="50" class="detailstile">{{i.workLocation}}</span>
+                </div>
+              </div>
+            </div> -->
+          </div>
+        </perfect-scrollbar>
+      </div>
+      <div *ngIf="noDataAvailableInNewJoinee" fxFlex fxLayoutAlign="center center">
+        <!-- No Data Available -->
+        <img [src]="'assets/Intranet-Icons/noData.svg'" style="height:100px">
+      </div>
+    </div>
+  </div>
+</div>

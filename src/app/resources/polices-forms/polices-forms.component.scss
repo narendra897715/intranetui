@@ -1,0 +1,29 @@
+
+.open {
+   
+    color: white;
+    background-color: #363084;
+    width: 50px;
+   
+}
+.searchbox {
+    padding: 10px;
+    border-radius: 10px;
+    width: 110px;
+    font-size: 14px !important;
+    width: 210px;
+    background-color: #ebebeb;
+}
+.updatebox {
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    width: 110px;
+    font-size: 14px !important;
+    background: linear-gradient(to bottom, rgba(92,205,146,1) 0%, rgba(98,176,177,1) 100%);
+    color: white;
+    cursor: pointer;
+}
+paper-icon-button{
+    display:none;
+}

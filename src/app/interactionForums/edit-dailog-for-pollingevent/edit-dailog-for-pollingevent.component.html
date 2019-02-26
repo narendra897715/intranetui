@@ -1,0 +1,105 @@
+<mat-toolbar fxLayoutAlign="space-between center" style="background-color: #edf0f3; height:55px;">
+    <h1 mat-dialog-title class="color-toolbar-header">Edit</h1>
+    <mat-icon (click)="onNoClick()" class="color-toolbar-header" style="cursor: pointer">&#xE5CD;</mat-icon>
+  </mat-toolbar>
+  
+  <div mat-dialog-content>
+    <form fxLayout="column" fxLayout.xs="column" fxLayout.sm="column" fxLayout.md="column" style="padding:20px;" [formGroup]="form">
+  
+      <div fxFlex="20" fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxFlex="30" fxLayout="column">
+          <label>Posting Category</label>
+          <mat-form-field [floatLabel]="'never'">
+            <mat-label>Events</mat-label>
+            <mat-select formControlName="categoryId" [disabled] ="true" name="categoryId" placeholder="category">
+              <mat-option *ngFor="let cat of submenu" [value]="cat.categoryId" [innerText]="cat.categoryName">
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+  
+        
+  
+        <div fxFlex="15" fxLayout="column">
+          <label>Start Date</label>
+          <mat-form-field [floatLabel]="'never'">
+            <input [max]="form.value.eventEndDate" formControlName="eventStartDate" autocomplete="off" readonly matInput [matDatepicker]="startpicker"
+              placeholder="Date" style="padding-bottom: 0 !important;">
+            <mat-datepicker-toggle matSuffix [for]="startpicker">
+              <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #startpicker disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+  
+     
+  
+        <div fxFlex="15" fxLayout="column">
+          <label>End Date</label>
+          <mat-form-field [floatLabel]="'never'">
+            <input [min]="form.value.eventStartDate"  formControlName="eventEndDate" autocomplete="off" readonly matInput [matDatepicker]="endpicker"
+              placeholder="Date" style="padding-bottom: 0 !important;">
+            <mat-datepicker-toggle matSuffix [for]="endpicker">
+              <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #endpicker disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+  
+     
+  
+      <div fxFlex="60">
+        <div fxLayout="column">
+          <mat-form-field appearance="outline">
+            <textarea matInput formControlName="eventName" placeholder="Write heading here.." style="height:25px;"></textarea>
+          </mat-form-field>
+          <div  fxLayout="row" fxLayoutGap="5px">
+            <div fxFlex="10">
+              Add Options
+            </div>
+            <div fxLayout="column" fxFlex="40" appearance="outline"  style="overflow:auto;height:150px;">
+              <div *ngFor="let option of editpollingData;let i = index">
+                <div fxLayout=row fxLayoutGap="10px">
+                <div fxLayoutAlign="center center">option {{option.optionumber}}</div>
+                <div fxLayoutAlign="center center" fxLayout="column" >
+                 <mat-form-field class="example-full-width" appearance="outline">
+                     <input matInput name="name-{{i}}" [(value)]="option.optionDescription" >
+                   
+                     <i class="fa fa-times-circle-o"  matSuffix aria-hidden="true"  (click)="deleteoption(option)" style="cursor:pointer"></i>
+                     <!-- <mat-icon matSuffix (click)="deleteoption(option)">sentiment_very_satisfied</mat-icon> -->
+                   </mat-form-field>   
+                 </div>
+                 </div>
+             </div>
+            </div>
+         
+            <div fxFlex="20" fxLayoutAlign="start start">
+              <div fxLayout="row"  style="background-color: black;
+              color: white;
+              width: 70px;
+              height: 38px;
+              border-radius: 3px;cursor:pointer" fxLayoutAlign="center center">
+              <span fxLayoutAlign="center center">
+                 <i class="fa fa-plus" aria-hidden="true" style="margin-right:5px"></i>
+                 <span>option</span>
+              </span>
+                
+              </div>
+              <!-- <button style="background-color:black;border:none;color:white;    height: 30px;
+              border-radius: 3px;" (click)="AddOption(Options)">option</button> -->
+            </div>
+       </div> 
+        </div>
+      </div>
+
+
+  
+      <div fxFlex="10" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center" style="margin-top: 18px;">
+        <button mat-raised-button class="submit" [disabled]="!form.valid" (click)="UpdatePolling()">Submit</button>
+        <button mat-raised-button class="cancel" (click)="onNoClick()">Cancel</button>
+  
+      </div>
+    </form>
+  
+  </div>

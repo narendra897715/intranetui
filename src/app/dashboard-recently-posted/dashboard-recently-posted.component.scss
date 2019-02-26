@@ -1,0 +1,74 @@
+.appreciation-img {
+    height: 80px !important;
+    width: 80px !important;
+   // margin: 5px;
+}
+
+:host{
+    height:100%
+}
+.text-container {
+    position: relative;
+    display: block;
+    
+   
+    height: calc(2em + 5px);
+    overflow: hidden;
+    white-space: normal;
+}
+
+.text-content {
+  word-break: break-all;
+  position: relative;
+  display: block;
+  max-height: 3em;
+}
+
+.ellipsis {
+  position: absolute;
+  right: 0;
+  top: calc(4em + 2px - 100%);
+  text-align: left;
+  background: white;
+}
+
+/*Event button style*/
+.event-button-style{
+    border-radius:5px;
+    border:3px transparent;
+    height:20px;
+    color:white;
+    padding: 0px 15px;
+    font-size: 12px;
+}
+/*Event button style*/
+
+.image-click-view span{
+    position: absolute;
+    top: 50%;
+    background-color: white;
+    color: black;
+    font-size: 10px;
+    border: none;
+    width:100%;
+    text-align:center
+}
+.image-click-view  {
+    position: relative;
+  
+}
+.image-click-view b{
+    position: absolute;
+    top: -15%;
+    right: -10%;
+  
+}
+
+
+* {
+  
+    font-family: 'Lato';
+    outline: 0;
+    font-size: 14px;
+    color: #444444;
+}

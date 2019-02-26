@@ -1,0 +1,81 @@
+
+  .mat-form-field{
+      width:100%;
+  }
+  .OptionAddButtonbefore {
+    width:30px; height:30px;padding: 10px;
+    pointer-events: none;
+  }
+  .OptionAddButtonafter{
+    width:30px; height:30px;padding: 10px;
+    pointer-events: auto;
+  }
+
+  .submit-active {
+    background-image: linear-gradient(#ffbd6d, #ff917b);
+  }
+
+  .submit-inactive {
+      background-image: grey;
+  }
+   .applyglobalclass {
+  
+    font-family: 'Lato';
+    outline: 0;
+    font-size: 14px;
+    color: #444444;
+}
+.endtimeclassbeforeED {
+ 
+  pointer-events: none;
+}
+.endtimeclassbeforeSD {
+  
+  pointer-events: auto;
+}
+.mat-form-field-infix{
+  width:100% !important; 
+}
+#editor{
+  padding-top:1rem !important;
+}
+.angular-editor-button[title="Insert Image"],
+.angular-editor-button[title="Unlink"],
+.angular-editor-button[title="Insert Link"],
+.angular-editor-button[title="Background Color"],
+.angular-editor-button[title="HTML Code"],
+ {
+  display: none;
+}
+
+.applyglobalclass > .mat-chip-list > .mat-chip-list-wrapper {
+  margin-bottom: 0px !important;
+}
+
+.mat-chip-list-wrapper {
+  margin-bottom: 10px !important;
+}
+[data-cmd=insertLink],[data-cmd=insertImage],[data-cmd=insertVideo],[data-cmd=insertFile],[data-cmd=insertTable],[data-cmd=emoticons],[data-cmd=specialCharacters],[data-cmd=print],[data-cmd=getPDF],[data-cmd=help],[data-cmd=html],[data-cmd=quote],[data-cmd=inlineClass] {
+  display:none;
+}
+.fr-wrapper div a {
+   background: white !important;
+   pointer-events: none;
+}
+.fr-toolbar{
+  position: relative !important;
+}
+.fr-sticky-dummy{
+  height:0px !important;
+  display:none;
+}
+.fr-quick-insert{
+  display: none;
+}
+.dp-time-select-control-up,.dp-time-select-control-down{
+  width:30px !important;
+}
+.mat-form-field-wrapper {
+  padding-bottom: 15px !important;
+ 
+}

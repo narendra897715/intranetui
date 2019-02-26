@@ -1,0 +1,12 @@
+FROM node:8
+RUN mkdir -p /usr/src/app/src
+WORKDIR /usr/src/app
+COPY package.json /usr/src/app/
+COPY package-lock.json /usr/src/app/
+COPY angular.json /usr/src/app/
+COPY tsconfig.json /usr/src/app/
+COPY tslint.json /usr/src/app/
+RUN npm install
+COPY /src /usr/src/app/src/
+EXPOSE 4234
+CMD [ "npm", "start"]

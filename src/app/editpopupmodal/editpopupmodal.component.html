@@ -1,0 +1,181 @@
+<div fxFlex fxLayout="column">
+  <mat-toolbar fxLayoutAlign="space-between center" style="background-color: #edf0f3; height:55px;">
+    <h1 *ngIf="post_edit"  class="color-toolbar-header">Post the discussion</h1>
+    <h1 *ngIf="!post_edit"  class="color-toolbar-header">Edit the discussion</h1>
+    <mat-icon (click)="onNoClick()" class="color-toolbar-header" style="cursor: pointer">&#xE5CD;</mat-icon>
+  </mat-toolbar>
+
+
+  <form fxLayout="column" fxLayout.xs="column" fxLayout.sm="column" fxLayout.md="column" style="padding:15px 20px;" [formGroup]="form">
+
+    <div fxFlex="10" fxLayout="row" fxLayoutAlign="space-between center" class="applyglobalclass">
+      <div fxFlex="30" fxLayout="column">
+        <label>Category
+          <sup style="color:red">*</sup>
+        </label>
+        <mat-form-field *ngIf="ceodeskOption != 'ceodesk'" [floatLabel]="'never'">
+          <mat-label>Choose Category</mat-label>
+          <mat-select formControlName="categoryId" [disabled]="!post_edit" name="categoryId" placeholder="category">
+            <mat-option *ngFor="let cat of submenu_dasboard" [value]="cat.categoryId" [innerText]="cat.categoryName">
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngIf="ceodeskOption == 'ceodesk'" [floatLabel]="'never'">
+          <!-- <mat-label>Category*</mat-label> -->
+          <mat-select [disabled]='true' [(ngModel)]="categoryIdSelected" formControlName="categoryId" name="categoryId" placeholder="category">
+            <mat-option *ngFor="let cat of submenu_dasboard" [value]="cat.categoryId" [innerText]="cat.categoryName">
+            </mat-option>
+          </mat-select>
+         
+        </mat-form-field>
+        <!-- <div *ngIf="!form.get('categoryId').valid && form.get('categoryId').touched">
+            <span style="color:red; font-size: 11px;font-family: 'Lato'">*Mandatory</span>
+          </div> -->
+      
+      </div>
+
+
+      <div fxFlex="15" fxLayout="column">
+        <label>Start Date
+          <sup style="color:red">*</sup>
+        </label>
+        <mat-form-field [floatLabel]="'never'" (click)="startpicker.open()">
+          <input [(ngModel)]="form.value.eventStartDate" (click)="startpicker.open()" formControlName="eventStartDate" [max]="form.value.eventEndDate"
+            autocomplete="off" readonly matInput [matDatepicker]="startpicker" placeholder="Date*" style="padding-bottom: 0 !important;">
+          <mat-datepicker-toggle matSuffix [for]="startpicker">
+            <!-- <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon> -->
+            <img [src]="'assets/Intranet-Icons/date_picker.svg'" style="color: red; height: 20px" (click)="startpicker.open()">
+          </mat-datepicker-toggle>
+          <mat-datepicker #startpicker disabled="false"></mat-datepicker>
+
+        </mat-form-field>
+      </div>
+
+      <!-- <div fxFlex="15" fxLayout="column">
+        <w-time color="primary" [(userTime)]="exportTime"></w-time>
+    </div> -->
+      <div fxFlex="15">
+        <label>Start Time</label>
+        <mat-form-field [floatLabel]="'never'" style="width:100%" [ngClass]="form.value.eventStartDate == null ? 'endtimeclassbeforeED' : 'endtimeclassbeforeSD' ">
+          <!-- <input name="someName" [(ngModel)]="selectedDate" [dpDayPicker]="datePickerConfig" />  -->
+          <span>
+            <input matInput name="someName" style="border: none;
+            width: 88%;padding:0px" placeholder="Time" [(ngModel)]="form.value.eventStartTime" mode="time" #STdateDirectivePicker="dpDayPicker"
+              formControlName="eventStartTime" [dpDayPicker]="STdatePickerConfig" />
+            <img [src]="'assets/Intranet-Icons/time.svg'" style="height:15px" (click)="openST()">
+          </span>
+        </mat-form-field>
+        <!-- <dp-date-picker [(ngModel)]="selectedDate" placeholder="time" mode="daytime"  [config]="datePickerConfig"  ></dp-date-picker>   -->
+
+      </div>
+
+
+      <div fxFlex="15" fxLayout="column">
+        <label>End Date</label>
+        <mat-form-field [floatLabel]="'never'" (click)="endpicker.open()">
+          <input [(ngModel)]="form.value.eventEndDate" (click)="endpicker.open()" formControlName="eventEndDate" [min]="form.value.eventStartDate"
+            autocomplete="off" readonly matInput [matDatepicker]="endpicker" placeholder="Date" style="padding-bottom: 0 !important;">
+          <mat-datepicker-toggle matSuffix [for]="endpicker">
+            <!-- <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon> -->
+            <img [src]="'assets/Intranet-Icons/date_picker.svg'" style="color:red; height: 20px" (click)="endpicker.open()">
+          </mat-datepicker-toggle>
+          <mat-datepicker #endpicker disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div fxFlex="15">
+        <label>End Time</label>
+        <mat-form-field [floatLabel]="'never'" style="width:100%" [ngClass]="form.value.eventEndDate == null ? 'endtimeclassbeforeED' : 'endtimeclassbeforeSD' ">
+          <span>
+            <input matInput name="someName" style="border: none; 
+            width: 88%;padding:0px" placeholder="Time" [(ngModel)]="form.value.eventEndTime" mode="time" formControlName="eventEndTime"
+              #ETdateDirectivePicker="dpDayPicker" [dpDayPicker]="ETdatePickerConfig" />
+            <img [src]="'assets/Intranet-Icons/time.svg'" style="height:15px" (click)="openET()">
+          </span>
+        </mat-form-field>
+
+      </div>
+    </div>
+
+    <div *ngIf="imageOption == 1 || imageOption == 2" fxFlex="10" style="margin-top:1%" fxLayoutAlign="start center" class="applyglobalclass">
+      <span fxFlex="10">Add images</span>
+      <input id="upload" type="file" style="display:none" (change)="onFileChange($event)" onclick="this.value=null;" multiple name="imageData"
+        accept="image/x-png,image/gif,image/jpeg">
+      <div fxLayout="column">
+        <button mat-raised-button style="background-color:#EEEFF1; border-radius: 5px;padding:0px" (click)="openInput()" style="margin-right:5px">
+          <span fxLayout="row">
+            <img style="height:20px; padding: 8px;" [src]="'assets/Intranet-Icons/upload.svg'"> &nbsp;&nbsp;
+            <span>Choose images..</span>
+          </span>
+        </button>
+        <span style="font-size:12px">Upload an image(s) from your computer</span>
+      </div>
+      <!-- <span *ngIf="imageobject.length == 0" style="margin-left:10px; padding-bottom: 15px;">No file selected</span> -->
+      <mat-chip-list #chipList  style="margin-bottom: 10px;">
+        <mat-chip *ngFor="let image of imageobject" [removable]="removable" (removed)="removeImageBeforePost(image)">
+          <span style="white-space: nowrap;
+            overflow: hidden !important;
+            text-overflow: ellipsis;
+            width: 100px;">{{image.imageName}}</span>
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+
+      </mat-chip-list>
+
+
+    </div>
+
+    <div fxFlex fxLayout="column">
+
+      <mat-form-field class="text-area-style applyglobalclass" appearance="outline">
+        <textarea matInput  formControlName="eventName" maxlength="150" placeholder="Write heading here..*" style="height:25px;"></textarea>
+      </mat-form-field>
+      <!-- <div *ngIf="!form.get('eventName').valid && form.get('eventName').touched">
+        <span style="color:red; font-size: 11px;font-family: 'Lato'">*Mandatory</span>
+      </div> -->
+      <div *ngIf="form.controls['eventName'].hasError('maxlength')">
+        <span style="color:red; font-size: 11px">Max character count exceeded</span>
+      </div>
+
+      <!-- <div>
+        <angular-editor [(ngModel)]="form.value.eventDescription" [config]="configNU" formControlName="eventDescription"></angular-editor>
+      </div> -->
+      <textarea [froalaEditor] formControlName="eventDescription" [(froalaModel)]="form.value.eventDescription"></textarea>
+
+      <!-- <textarea matInput formControlName="eventDescription" placeholder="Write description here..*" style="height:100px;"></textarea> -->
+
+      <!-- <div *ngIf="!form.get('eventDescription').valid && form.get('eventDescription').touched">
+        <span style="color:red; font-size: 11px">*Mandatory field</span>
+      </div> -->
+    
+
+    </div>
+    <div fxFlex fxlayoutAlign="end center" class="applyglobalclass">
+      <span style="color:red; font-size: 15px">*</span>
+      <span style="font-size: 11px">&nbsp;Mandatory field</span>
+    </div>
+
+    <div fxFlex="30" fxLayout="row" fxLayoutAlign="space-between" style="margin-top:1%;" class="applyglobalclass">
+      <div fxLayout="column">
+        <span style="font-weight:bold; padding-left: 3px; color:#ee6642;">Note:</span>
+        <ol style="padding-left: 27px;">
+          <li>
+            Make sure that the appropriate category is chosen while posting.</li>
+          <li>Warning: You can only edit but can’t delete the post once posted.</li>
+          <li>An email will be sent to Merilytics-Team once you have posted. </li>
+          <li>It is mandatory to upload only image format files.</li>
+          <li>Fill in all the required fields to post.</li>
+        </ol>
+      </div>
+
+      <div fxLayoutGap="5px" class="applyglobalclass">
+        <button *ngIf="post_edit" mat-raised-button class="submit" [disabled]="!form.valid" (click)="postUpdate()" [ngClass]="{'background-color1' : !form.valid, 'background-changed' : form.valid}">
+          <img [src]="'assets/Intranet-Icons/post.svg'" style="margin-right:4px; height:15px">Post</button>
+        <button *ngIf="!post_edit" mat-raised-button class="submit" [disabled]="!form.valid" [ngClass]="{'background-color1' : !form.valid, 'background-changed' : form.valid}"
+          (click)="postUpdate()">Update</button>
+        <button mat-raised-button class="cancel" style="border: 1px solid #ef6d4b;" (click)="onNoClick()">Cancel</button>
+      </div>
+
+
+    </div>
+  </form>
+</div>

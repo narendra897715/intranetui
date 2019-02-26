@@ -1,0 +1,82 @@
+<div fxFlex fxLayout="column">
+    <div fxFlex="10" fxLayout="row"  class="md-elevation-z3 navbar">
+      <div fxFlex="20" class="txt" fxLayoutAlign="start center">
+          <i class="fa fa-bars" aria-hidden="true" (click)="opensidnav()"  fxHide.md='true' fxHide.lg='true' fxHide.xl='true'style="margin-right:5px"></i>
+
+          <a href="https://merilytics.com/" target="_blank"><img [src]="'../assets/Intranet-Icons/Intranet.svg'" fxHide.xs='true' width="180" height="50" ></a>
+      </div>
+      <div  fxLayoutAlign="space-between center" fxFlex="45" fxHide.xs='true' fxHide.sm='true'  fxFlex.md="60" >
+        <div fxLayout="row" *ngFor="let data of tabsdata" style="height:100%">
+          <div fxLayout="row"  fxFlex fxLayoutAlign="center center" routerLink='{{data.url}}'  class="navinactive tab-text-style"  routerLinkActive="navactive"  (click)="redirect(data.url)">
+            {{data.name}} 
+          </div>
+
+        </div>
+    
+      </div>
+     
+    
+    
+      <div  fxFlex="35" fxLayoutAlign="end center" fxFlex.md="20">
+          <img [src]="'../assets/Intranet-Icons/apps.svg'" style="cursor:pointer;margin-left:5px"  [matMenuTriggerFor]="appsmenu" width="25" height="25"> 
+          <mat-menu #appsmenu="matMenu" yPosition="above" [overlapTrigger]="false" >
+            <div *ngFor="let app of Apps">
+                <div *ngIf="app.logo != 'inet.svg'" fxLayout="column" (click)="GotoApplication(app.url,app.isInternalApp)"  style="margin-bottom:8px;cursor:pointer" fxLayoutAlign="center center" >
+                    <img src="assets/Intranet-Icons/{{app.logo}}" style="height:30px;width:40px">
+                    <span style="font-size: 12px">{{app.acronym}}</span>
+                </div>
+            </div>
+             
+            
+              
+             
+            </mat-menu>
+        <div class="clr">Hi, {{userdata?.firstName}} </div>
+        <img [src]="'../assets/Intranet-Icons/user-filled.svg'" style="cursor:pointer"  [matMenuTriggerFor]="menu" width="25" height="25"> 
+       
+<mat-menu #menu="matMenu" yPosition="above" [overlapTrigger]="false">
+  <div mat-menu-item (click)="changepassword()">Change Password</div>
+  <div mat-menu-item (click)="callLogoutRequest()" style="margin-bottom: 10px;">Logout</div>
+  
+  <div mat-menu-item style="cursor:default;line-height: 25px;">Help<br>
+    <span> <a style="text-decoration: underline;color: blue;" href="mailto:appsupport@merilytics.com" target="_top" >appsupport@merilytics.com</a></span>
+   
+  </div>
+</mat-menu>
+      </div>
+      
+    </div>
+
+    <div  fxFlex fxLayout="column" style="overflow:auto;" >
+      <div class="sidenav" [style.width]="sidenavwidth" fxLayout="column">
+          
+          <div  fxLayoutAlign="end end">
+              <mat-icon (click)="closeNav()" class="color" style="cursor: pointer" fxLayoutAlign="end end">&#xE5CD;</mat-icon>
+          </div>
+          <mat-nav-list>
+           
+              
+              <img [src]="'../assets/Intranet-Icons/Intranet.svg'" width="180" height="50" >
+              <a mat-list-item routerLink="." *ngFor="let data of tabsdata" style="color:#111" (click)="redirect(data.url)">{{data.name}}</a>
+            </mat-nav-list>
+        </div>
+        <router-outlet style="display: none;"></router-outlet>
+      
+    </div>
+  
+    
+        <footer>
+            <div class="footer">
+              <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+                <div style="color: white; font-size: 11px">By accessing this application, you agree to maintain confidentiality of the information and to not share the content of this application in any form with any person outside of Meritus Intelytics Private Limited.</div>
+                <div style="color: white; font-size: 11px">Copyright Merilytics Inc. 2018. All rights reserved. &nbsp;</div>
+                <!-- <a target="_blank" fxLayout="row" fxLayoutAlign="center center" href="https://merilytics.com/">
+                  <img alt="Merilytics" [src]="'../assets/Merilytics.jpg'" width="120">
+                </a>  -->
+              </div>
+            </div>
+          </footer>
+    
+  
+</div>
+ <div #message></div> 

@@ -1,0 +1,301 @@
+<div fxLayout="column" fxFlex style="background-color: white;border-radius:5px; border-top-left-radius:0px;background-image:url(assets/Intranet-Icons/bg22.png);"
+  *ngIf="!makeTotalDisplayScreenVisible">
+  <div fxLayout="row" fxFlex>
+    <div fxLayout="column" fxFlex>
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutGap.xs="2px" fxLayoutAlign="space-between" style="padding:10px;border-bottom:1px solid lavender;">
+        <div fxLayoutAlign="center center">
+          <div class="searchbox" fxLayoutAlign="center end">
+            <input aria-label="search" placeholder="Search" (keyup)="searcheanddurationvents(recentlyposteddata.search)" (keyup.enter)='searcheanddurationvents(recentlyposteddata.search)'
+              [(ngModel)]="recentlyposteddata.search" type="search" style="border:none;background-color: #ebebeb;">
+            <span class="mer-search-filled" width="18" height="18" (click)="searcheanddurationvents(recentlyposteddata.search)"></span>
+            <!-- <img [src]= "'assets/Intranet-Icons/search.svg'" width="18" height="18" (click)="searcheanddurationvents()"> -->
+          </div>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+          <!-- <span *ngIf="clearSearch" (click)="resetFilters()" style="text-decoration: underline; color:#245d99; padding: 10px">Reset filters</span> -->
+          <img style="width:20px; height:28px;" *ngIf="clearSearch"  [matTooltip]="'Reset filter'" matTooltipPosition="above"  (click)="resetFilters()" [src]="'assets/Intranet-Icons/reset.svg'">
+          <div style="background-image: linear-gradient(#ffbd6d, #ff917b);cursor:pointer;padding: 10px;
+          border-radius: 10px;" *ngIf="businesslogic.isAdmin" (click)="postupdate(1)" fxLayoutAlign="center center" fxLayoutGap="5px">
+            <img [src]="'assets/Intranet-Icons/post.svg'" style="height:15px">
+            <span>Post an update</span>
+          </div>
+          <div class="filterbox">
+            <mat-select [(ngModel)]="recentlyposteddata.categoryId" placeholder="All" (selectionChange)="searcheanddurationvents(recentlyposteddata.search)">
+              <mat-option *ngFor="let i of categoryLists" [value]="i.categoryId">
+                {{i.categoryName}}
+              </mat-option>
+            </mat-select>
+          </div>
+          <span class="funnel">
+              <img [src]="'./assets/Intranet-Icons/filter.svg'" width="18" height="18">
+            </span>
+          <div class="filterbox">
+            <mat-select [(ngModel)]="recentlyposteddata.filterId" placeholder="This Week" (selectionChange)="searcheanddurationvents(recentlyposteddata.search)">
+              <mat-option *ngFor="let i of timeFilterList" [value]="i.newsAndUpdatesFilterId">
+                {{i.filter}}
+              </mat-option>
+            </mat-select>
+          </div>
+        </div>
+      </div>
+      <div fxFlex style="overflow:auto;margin:1px;position:relative" fxLayout="column" *ngIf="!noDataAvailableInNandU">
+        <!-- <a href="#" id="scroll" (click)="gotoupbutton123()" *ngIf="showgotoupbutton">
+          <span></span>
+        </a> -->
+
+        <perfect-scrollbar (psYReachEnd)="onScrollEvent($event)" (psScrollY)="showgotoup($event)">
+
+          <div *ngFor="let i of updates">
+            <div class="border-line-after-event" fxLayout="column" (click)="displayCompleteData(i.newsAndUpdatesId)" style="cursor:pointer">
+              <div style="padding:20px; height: 300px;">
+                <div fxLayout="row" fxFlex fxLayoutAlign="space-between" fxLayout.xs="column">
+                  <div fxLayout="column" fxFlex="80" fxFlex.xs="60">
+                    <div fxFlex="10">
+                      <b style="color:#5c5c5c;margin-right:20px;font-size:16px">{{i.eventName}}</b>
+                      <button class="event-button-style" *ngIf="hideEventButton == 'all'" [style.background-color]="i.colourCode">{{i.categoryName}}</button>
+
+                    </div>
+                    <div fxFlex="75" fxLayoutAlign="start center">
+                      <span *ngIf="i.imageData.length != 0" fxFlex="11" fxFlex.xs="30" fxFlex.sm="15">
+                        <img style="width:100%;height:100px" [src]="i.imageData[0].image">
+                      </span>
+                      <span *ngIf="i.imageData.length == 0" fxFlex="11" fxFlex.xs="30" fxFlex.sm="15">
+                        <img style="width:100%;height:100px" [src]="'assets/Intranet-Icons/picture.svg'">
+                      </span>
+                      <div fxFlex="1">
+
+                      </div>
+                      <!--/*for dots after the text*/
+                       <div fxFlex="90" class="text-container">
+                          <span class="text-content">
+                              {{i.eventDescription}}
+                            <div class="ellipsis">. . . </div>
+                          </span>
+                        </div> 
+                        /*for dots after the text*/ -->
+                      <div fxFlex="88" fxLayout="column" fxFlex.sm="88">
+                        <span class="block-with-text"  [innerHTML]="i.eventDescription | safeHtml"></span>
+                      </div>
+                      <!-- <span fxFlex="90" class="block-with-text" fxFlex.xs="70">{{i.eventDescription}}</span> -->
+                    </div>
+ 
+                  </div>
+                  <div fxFlex="3">
+
+                  </div>
+                  <div fxFlex="17" fxLayout="column" fxFlex.xs="40" fxLayoutAlign="space-between" fxLayoutAlign.xs="start start">
+                    <div fxLayout="column" fxLayoutGap="5px" fxLayout.xs="column">
+                      <div fxLayoutAlign="end center"  fxLayoutAlign.xs="start start">
+                        <span style="color:#363084;font-size:13px;margin-right:4px">Posted On</span>
+                        <img [src]="'assets/Intranet-Icons/time.svg'" style="height:15px;margin-right:3px;">
+                        <span style="font-size:13px;">{{i.createdDate | date:"MMM dd, yyyy"}}</span>
+                      </div>
+                      <div fxLayoutAlign="end center" fxLayoutAlign.xs="start center">
+                        <span style="margin-right:10px"> by</span>
+
+                        <span style="display: inline-block;white-space: nowrap;overflow: hidden !important;text-overflow: ellipsis;" [mdePopoverTriggerFor]="appPopover"
+                          mdePopoverTriggerOn="hover">
+                          <b style="color: #363084;">{{i.createdByName}}</b>
+                        </span>
+                        <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" mdePopoverPositionY="below">
+                          <mat-card style="max-width:180px;padding: 10px !important">
+                            <mat-card-content>
+                              <img [src]="'assets/Intranet-Icons/user.svg'" (click)="gotoEmployeePage(i.createdBy)" style="width:15px; height:15px; margin-right:8px;cursor:pointer">
+                              <a href="{{i.mail}}">
+                                <img [src]="'assets/Intranet-Icons/outlook.svg'" style="width:15px; height:15px; margin-right:8px">
+                              </a>
+                              <a [href]="sanitize(i.skype)">
+                                <img [src]="'assets/Intranet-Icons/skype.svg'" style="width:15px; height:15px;">
+                              </a>
+                            </mat-card-content>
+                          </mat-card>
+                        </mde-popover>
+
+                      </div>
+
+                    </div>
+                    <div fxLayoutAlign="end end">
+
+                      <div class="start-discussion-button" (click)="gotodiscussionpage('newlyadded/individual-post',i)" fxLayoutAlign="center center"
+                        fxLayoutGap="3px" *ngIf="i.enteredTheDiscussion == 0">
+                        <img [src]="'assets/Intranet-Icons/start-discussion.svg'" style="height: 15px">
+                        <span style="color:white !important">Start discussion</span>
+                      </div>
+                      <div class="join-discussion-button" (click)="gotodiscussionpage('trending/individual-post',i)" fxLayoutAlign="center center"
+                        fxLayoutGap="3px" *ngIf="i.enteredTheDiscussion == 1">
+                        <img [src]="'assets/Intranet-Icons/join_discussion.svg'" style="height: 15px">
+                        <span style="color:white !important">Join discussion</span>
+                      </div>
+                      <!-- <button class="start-discussion-button" mat-raised-button   *ngIf="i.enteredTheDiscussion == 0"
+                            (click)="gotodiscussionpage('newlyadded/individual-post',i)">Start a discussion</button>
+                          <button class="join-discussion-button" mat-raised-button  *ngIf="i.enteredTheDiscussion == 1"
+                            (click)="gotodiscussionpage('trending/individual-post',i)">Join the discussion</button> -->
+                    </div>
+
+                  </div>
+                </div>
+                <span>
+                </span>
+              </div>
+
+              <!-- <div  fxLayoutGap="10px" >
+                
+            <span >by &nbsp; &nbsp;<span style="color: #363084">{{i.createdByName}}</span></span>
+            <span >Created On &nbsp; &nbsp;<img [src]="'assets/Intranet-Icons/clock.svg'" style="height:15px;"> &nbsp; &nbsp;{{i.createdDate | date}}</span>
+               
+              </div> -->
+
+            </div>
+          </div>
+        </perfect-scrollbar>
+
+      </div>
+      <div *ngIf="noDataAvailableInNandU" fxFlex fxLayoutAlign="center center">
+        <img [src]="'assets/Intranet-Icons/noData.svg'" style="height:100px">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div fxLayout="column" fxFlex style="background-color: white;border-radius:5px;border-top-left-radius:0px;background-image:url(assets/Intranet-Icons/bg22.png);"
+  *ngIf="makeTotalDisplayScreenVisible">
+  <div fxFlex fxLayout="column"  fxLayoutGap="5px">
+    <div fxFlex="7" fxlayout="row" style="border-bottom:1px solid lavender;">
+      <!-- <button mat-raised-button> -->
+      <span fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center" style="display:flex; cursor:pointer; padding: 10px" (click)="gobacktopost()">
+        <span class="mer-priority-high-filled" style="font-size:25px; transform: rotate(270deg); color: #5587ae"></span>
+        <!-- <img [src]="'assets/Intranet-Icons/backarrow.svg'" style="width:15px; height:15px;"> -->
+        <span style="font-size: 16px; color: #5587ae;">Back</span>
+      </span>
+      <!-- </button> -->
+
+    </div>
+<div fxFlex fxLayout="column" style="padding:10px">
+    <div fxFlex="7" fxLayout="row" fxLayoutAlign="space-between">
+
+      <span style="font-size:16px; font-weight: bold; opacity:0.9px">{{totalObjectdata.eventName}}</span>
+      <span fxLayoutAlign="center center" (click)="postupdate(totalObjectdata)" *ngIf="businesslogic.isAdmin" style="color: #95af28;cursor:pointer; border: 1px solid #95af28; padding: 2px;
+          height: 25px;
+          padding: 5px;
+          border-radius: 5px;">
+        <i class="fa fa-pencil" aria-hidden="true" style="margin-right:5px;font: normal normal normal 14px/1 FontAwesome;"></i>
+        <span>Edit</span>
+      </span>
+
+
+
+    </div>
+
+    <div fxFlex="5" fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxLayoutGap="10px">
+        <span>
+          Start Date: &nbsp;&nbsp; 
+          <b >{{totalObjectdata.eventStartDate | date:"MMM dd, yyyy&nbsp;&nbsp; h:mm a" }}</b>
+        </span>
+        <span *ngIf="totalObjectdata.eventEndDate != null">
+          End Date: &nbsp;&nbsp; 
+          <b >{{totalObjectdata.eventEndDate | date:"MMM dd, yyyy&nbsp;&nbsp; h:mm a" }}</b>
+        </span>
+      </div>
+
+      <div>
+        <div fxLayoutAlign="center center" fxLayoutGap="5px">
+          <span>Posted On</span>
+          <img [src]="'assets/Intranet-Icons/time.svg'" style="width:15px; height:15px;">
+          <span>{{totalObjectdata.createdDate | date:"MMM dd, yyyy"}}</span>
+
+        </div>
+
+      </div>
+      <!-- <span>by
+        <b style="color: #363084">
+          
+        </b>  Posted On 
+       
+      </span> -->
+
+    </div>
+    <div fxFlex="5" fxLayoutAlign="end center" >
+
+      <span style="margin-right:5px">by</span>
+      <span style="color: #363084; cursor:pointer; font-weight: bold" [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover">{{totalObjectdata.createdByName}}
+      </span>
+      <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false">
+        <mat-card style="max-width: 180px; padding: 10px !important">
+          <mat-card-content>
+            <img [src]="'assets/Intranet-Icons/user.svg'" (click)="gotoEmployeePage(totalObjectdata.createdBy)" style="width:15px; height:15px; margin-right:8px;cursor:pointer">
+            <a href="{{totalObjectdata.mail}}">
+              <img [src]="'assets/Intranet-Icons/outlook.svg'" style="width:15px; height:15px; margin-right:8px">
+            </a>
+            <a [href]="sanitize(totalObjectdata.skype)">
+              <img [src]="'assets/Intranet-Icons/skype.svg'" style="width:15px; height:15px;">
+            </a>
+          </mat-card-content>
+        </mat-card>
+      </mde-popover>
+
+    </div>
+
+    <div fxLayoutAlign="end end">
+      
+      <div class="start-discussion-button" (click)="gotodiscussionpage('newlyadded/individual-post',totalObjectdata)" fxLayoutAlign="center center"
+        fxLayoutGap="3px" *ngIf="totalObjectdata.enteredTheDiscussion == 0">
+        <img [src]="'assets/Intranet-Icons/start-discussion.svg'" style="height: 15px">
+        <span style="color: white">Start discussion</span>
+      </div>
+      <div class="join-discussion-button" (click)="gotodiscussionpage('trending/individual-post',totalObjectdata)" fxLayoutAlign="center center"
+        fxLayoutGap="3px" *ngIf="totalObjectdata.enteredTheDiscussion == 1">
+        <img [src]="'assets/Intranet-Icons/join_discussion.svg'" style="height: 15px">
+        <span style="color: white">Join discussion</span>
+      </div>
+      <!-- <div fxLayoutAlign="end end">
+        <button class="start-discussion-button" mat-raised-button  *ngIf="totalObjectdata.enteredTheDiscussion == 0"
+          (click)="gotodiscussionpage('newlyadded/individual-post',totalObjectdata)">Start a discussion</button>
+        <button class="join-discussion-button" mat-raised-button  fxFlex.sm="90" *ngIf="totalObjectdata.enteredTheDiscussion == 1"
+          (click)="gotodiscussionpage('trending/individual-post',totalObjectdata)">Join the discussion</button>
+      </div>  -->
+    </div>
+    <div style="overflow:auto;margin-top:1%" fxFlex>
+      <perfect-scrollbar>
+        <div  [innerHTML]="totalObjectdata.eventDescription | safeHtml">
+         
+
+        </div>
+        <div fxLayout="row wrap">
+          <div *ngIf="totalObjectdata.imageData.length == 0">
+            <img style="height:90px;" [src]="'assets/Intranet-Icons/picture.svg'">
+          </div>
+          <div *ngIf="totalObjectdata.imageData.length != 0" fxLayout="row">
+            <div *ngFor="let i of totalObjectdata.imageData; index as l" style="margin:10px">
+              <div fxLayout="column" fxLayoutAlign="end end" class="image-click-view">
+    
+                <b>
+                  <img [src]="'assets/Intranet-Icons/add_circle.svg'" style="color: #363084;transform: rotate(45deg); cursor: pointer" *ngIf="businesslogic.isAdmin"
+                    (click)="deleteimage(totalObjectdata.newsAndUpdatesId,i.imageId)">
+    
+                </b>
+    
+                <!-- <i  class="fas fa-times-circle" aria-hidden="true" *ngIf="businesslogic.isAdmin" (click)="deleteimage(totalObjectdata.newsAndUpdatesId,i.imageId)"></i> -->
+    
+                <img style="height:90px;width:145px; cursor: pointer" [src]="i.image" (click)="zoominimage(l)">
+                <span style="cursor: pointer" (click)="zoominimage(l)">Click to view full screen</span>
+              </div>
+    
+            </div>
+          </div>
+    
+          <div fxLayoutAlign="center center" *ngIf="totalObjectdata.imageData.length < 5">
+            <input id="upload" type="file" style="display:none" (change)="onFileChange($event,totalObjectdata.newsAndUpdatesId)" onclick="this.value=null;"
+              multiple name="imageupload">
+            <img [src]="'assets/Intranet-Icons/add_circle.svg'" style="width:30px; height:30px; color: #363084; padding: 10px; cursor: pointer"
+              *ngIf="businesslogic.isAdmin" (click)="openInput()">
+          </div>
+        </div>
+      </perfect-scrollbar>
+    </div>
+  
+</div>
+  </div>
+
+</div>

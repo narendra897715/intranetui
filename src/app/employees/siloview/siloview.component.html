@@ -1,0 +1,65 @@
+<div fxLayout="column" fxFlex style="background-image: url(assets/Intranet-Icons/bg_inverse.png)">
+  
+      <div  fxLayout="row" >
+          <div fxFlex="30" style="margin:1%" fxLayoutAlign="start start" fxLayout="column">
+              <span fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="start center" style="display:flex; cursor:pointer; padding: 2px" (click)="goBackToEmployeeInfo()">
+                  <span class="mer-priority-high-filled" style="font-size:25px; transform: rotate(270deg); color: #5587ae"></span>
+                  <span style="font-size: 16px; color: #5587ae;">Back</span>
+                </span>
+              
+                <div>
+                  <!-- <button style="width: 120px;
+                  border: none;
+                  background-color: #99b230;
+                  border-radius: 5px;
+                  height: 30px;margin-right:5px;color:white">Silo view</button> -->
+                  <!-- <button style="width: 120px;
+                  border: none;
+                  background-color: #99b230;
+                  border-radius: 5px;
+                  height: 30px;color:white">Org SILO view</button> -->
+                </div>
+            </div>
+        <div fxFlex="40" fxLayout="column" fxLayoutAlign="start center">
+         
+              <div *ngFor="let list of details" >
+                  <div fxLayout="column"  *ngIf="list.EmpLevel <= plusandminus">
+                    <div style="width:260px;" fxLayoutAlign="end end">
+                      <div style="width:129px;border-left:2px solid black;top:0;height:50px">
+      
+                      </div>
+                    </div>
+                    <div  class=" mat-elevation-z1" fxLayout="row" fxLayoutGap="5px" style="background-color: #99b230;width:260px;padding:1%;">
+                      <img fxFlex="25" [src]="'assets/images/user-icon-white.svg'" height=70>
+                      <div fxFlex="75" fxLayout="column" class="info" fxLayoutAlign="center start" fxLayoutGap="5px">
+      
+                        <b class="empnameanddes">{{list.employeeName}}</b>
+      
+      
+                        <b class="empnameanddes">{{list.designation}}</b>
+      
+      
+                      </div>
+      
+                    </div>
+                    <div  fxLayoutAlign="center center" *ngIf="list.EmpLevel !=1">
+                      <img (click)="maxomous(list.EmpLevel)" [src]="'assets/Intranet-Icons/plus-org-str-icon.svg'" *ngIf="list.EmpLevel == plusandminus"
+                        width="18" height="18" style="cursor:pointer">
+                      <img [src]="'assets/Intranet-Icons/minus-org-str-icon.svg'" (click)="minimous(list.EmpLevel)" *ngIf="list.EmpLevel != plusandminus"
+                        width="18" height="18" style="cursor:pointer">
+                    </div>
+      
+                  </div>
+                
+                </div>
+          
+          
+          
+        </div>
+        <div fxFlex="30" >
+         
+        </div>
+      </div>
+    
+
+</div>

@@ -1,0 +1,74 @@
+<!-- <div fxFlex fxLayout="column">
+    <div fxLayoutAlign="center center" style="padding: 20px;">
+        <b>Merilytics Applications</b>
+    </div>
+    <div class="grid">
+        <div class="grid-item">
+            <div class="grid-inner">
+    
+              <div> Development Action Plan</div>
+         </div>
+        </div>
+        <div class="grid-item color">
+            <div fxLayout="column" class="grid-inner ">
+                <div>IntraNet Portal</div>
+               
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="grid-inner">
+                <div>ADP portal</div>
+               
+
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="grid-inner">
+                <div>Leave Management System</div>
+              
+
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="grid-inner">
+                <div>Vantage Circle</div>
+              
+
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="grid-inner">
+                <div>Meta</div>
+               
+
+            </div>
+        </div>
+        <div class="grid-item1"><div class="grid-inner"></div></div>
+        <div class="grid-item">
+            <div class="grid-inner">
+                <div>Employee DB</div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div fxLayout="column" fxFlex style="margin:20px" style="background-image: url(assets/Intranet-Icons/bg_inverse.png)">
+    <div fxLayoutAlign="center end" fxFlex="15">
+        <b style="font-size: 30px">Merilytics Applications</b>
+    </div>
+         <div fxLayout="row wrap" fxFlex fxLayoutAlign="center center" >
+                  <div *ngFor="let app of Apps" >
+                      <div *ngIf="app.logo != 'inet.svg'" fxLayout="column" style="margin:10px" fxLayoutGap="5px">
+                            <div (click)="GotoApplication(app.url,app.isInternalApp)"  class="img-style" fxLayoutAlign="center center" >
+                                <img src="assets/Intranet-Icons/{{app.logo}}" height="80px">
+                            </div>
+                            <div style="width:140px;text-align:center; height: 20px" >
+                               <b>{{app.applicationName}}</b> 
+                            </div>
+                      </div>
+                          
+                  </div>
+         </div>
+</div>
+
+

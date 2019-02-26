@@ -1,0 +1,17 @@
+<div class="row text-center">
+  <div class="col-md-4">
+    <div fxLayout="row" fxLayoutAlign="space-between center" class="btn-group">
+      <div class="btn btn-primary" class="play-arrow" style="cursor:pointer;" mwlCalendarPreviousView [view]="view"
+        [(viewDate)]="viewDate" (viewDateChange)="viewDateChange.next(viewDate)">
+        <mat-icon style="color: white;font-family:'Material Icons';font-size:24px">play_arrow</mat-icon>
+      </div>
+      <div class="col-md-4">
+        <h3 style="color:white">{{ viewDate | calendarDate:(view + 'ViewTitle'):locale }}</h3>
+      </div>
+      <div class="btn btn-primary" class="play-arrow-right" style="cursor:pointer" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+        (viewDateChange)="viewDateChange.next(viewDate)">
+        <mat-icon style="color: white;font-family: 'Material Icons';font-size:24px">play_arrow</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>

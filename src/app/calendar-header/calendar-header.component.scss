@@ -1,0 +1,36 @@
+.btn-group {
+    //  background-color: #98B243;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background: linear-gradient(45deg, rgba(255, 119, 182, 1) 0%, rgba(171, 89, 243, 1) 100%);
+}
+
+.play-arrow {
+    color: white;
+    transform: rotate(180deg);
+    margin-left: 10px;
+}
+
+.play-arrow :hover {
+    border: 0.5px;
+    border-style: solid;
+    border-radius: 6px;
+}
+
+.play-arrow-right {
+    color: white;
+    margin-right: 10px
+}
+
+.play-arrow-right :hover {
+    border: 0.5px;
+    border-style: solid;
+    border-radius: 6px;
+}
+* {
+  
+    font-family: 'Lato';
+    outline: 0;
+    font-size: 14px;
+    color: #444444;
+}
